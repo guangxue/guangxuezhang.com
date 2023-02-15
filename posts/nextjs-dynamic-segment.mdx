@@ -1,0 +1,22 @@
+---
+title: Next.js Dynamic Route with TypeScript
+tags: Next.js
+publish: 2023-02-08
+description: Using TypeScript with Next.js to define dynamic 
+slug: nextjs-dynamic-segment
+---
+
+# Adding type safety to the param
+
+```typescript title="[slug]/page.tsx" showLineNumbers
+interface Params {
+	params: {
+		tag: string;
+	}
+}
+
+const tagListPage = ({params}: Params) => {
+	return <h1>My Page</h1>;
+}
+
+```

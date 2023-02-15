@@ -1,0 +1,42 @@
+---
+title: Magic must defeat magic!
+tags: Contentlayer
+publish: 2023-02-14
+description: Make life easier by stay away from the chaos of `remark` ecosystem.
+slug: magic-must-defeat-magic
+---
+
+# Magic must defeat Magic!
+When it comes to build personal portfolio/ blog, a static site is written in markdown that becomes the first choice , and I'm no exception.
+
+There are some MD/MDX solutions out there seems really help you. The most popular way to build MD/MDX blog is using `unified`, `rehype`, `remark` and `gray-matter`. They all do their job and do it really good. 
+
+However, when you started to get your hand dirty with `unified`, `rehype`, `remark` ecosystem, you will be realising that is way more complicated and time consuming. You'll end up with install multiple plugins and deal with each of them to make all work together smoothly so that it is just to parse some markdown files and add some syntax highlighting. I believe that once you understand their concept, it will clear your confusion. However, the reality is cruel, most of their plugins are hard to use and less supports and also not working. You will need to compare, understand their logic and choose, but they are still good at least many developer are still using them.
+
+Finally, I came up with a simple solution to make things work perfectly and deal with the chaos of `unified/rehype` ecosystem by using [Contentlayer](https://www.contentlayer.dev/). Although it still in beta stage, it did its job perfectly and better experience than work with `unified` ecosystem. 
+
+I share a list of my search that I did, just give you some subjective perspective so that you won't waste your time on those that won't even work. None of them will work as you expected, and their sample codes are obscure to me.
+
+1. [remark-highlight](https://github.com/remarkjs/remark-highlight.js)
+
+	They move to support rehype. Are you a big fan of them wanna move as well?	
+2. [remark-prism](https://github.com/sergioramos/remark-prism)
+
+	You will get this error: **Module parse failed: Unexpected character '�'**
+
+3. [remark-torchlight](https://github.com/torchlight-api/remark-torchlight)
+
+	They states on their website:
+
+	🚨 This client is still very much a work in progress. Please open issues! 🚨
+
+	View it on github at github.com/torchlight-api/remark and this link is invalid.
+
+4. [rehype-highlight](https://github.com/rehypejs/rehype-highlight)
+
+	It forces you to use rehpye, althought you can you `remark-rehype` for you to transfer easily. However, debug your code once you encounter some error will be helpless.
+
+	sample code use third-pary v-file to read file showing their code is working but not. and it reads html file not markdown file.
+
+	It's hard for you to grasp their concept to use their plugins to easily. It waste most of you valuable time to think what they think.
+

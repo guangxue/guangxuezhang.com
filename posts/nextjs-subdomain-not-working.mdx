@@ -1,0 +1,57 @@
+---
+title: Next.js subdomain setup failed
+tags: Next.js,NotWorking
+publish: 2023-02-04
+description: I've been searched two days to make it work, but it's not easy.
+slug: nextjs-subdomain-not-working
+---
+
+# Next.js sub-domain Setup is way more complicated
+
+Recently, I decided to build my personal website by using Next.js and TypeScript and Tailwind. I initailly decided to route sub-directory to my subdomain. Eventually, this method is failed and way more complicated.
+
+I've been search two whole days tried to find a solution that could make it works. There are some solution seems can do their job. Such as Nginx rewrites/redirect. However, it ends up with CORS disallowd and blocked errors. I write some of 'solutions' down below in order to reminder me of stopping searched again as these solutions are *NOT* work! Maybe some day it will work. You never know.
+
+```nginx
+location ^~ blog/ {
+	rewrite ^/blog/?(.*)$ https://blog.example.com/$1 permanent;
+} 
+```
+
+When you got the errors like CORS disallow, you should add this in order to comfort Nginx:
+
+```nginx
+location ^~ blog/ {
+	add_header Access-Control-Allow-Origin *;
+	rewrite ^/blog/?(.*)$ https://blog.example.com/$1 permanent;
+} 
+```
+
+Or maybe you think that solutions are so simple, and that's the reason you failed. Try following:
+
+```nginx
+set $cors '';
+if ($http_origin ~ '^https?://(localhost|www\.yourdomain\.com|www\.yourotherdomain\.com)') {
+  set $cors 'true';
+}
+
+if ($cors = 'true') {
+  add_header 'Access-Control-Allow-Origin' "$http_origin" always;
+  add_header 'Access-Control-Allow-Credentials' 'true' always;
+  add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS' always;
+  add_header 'Access-Control-Allow-Headers' 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With' always;
+  # required to be able to read Authorization header in frontend
+  #add_header 'Access-Control-Expose-Headers' 'Authorization' always;
+}
+
+if ($request_method = 'OPTIONS') {
+	# Tell client that this pre-flight info is valid for 20 days
+	add_header 'Access-Control-Max-Age' 1728000;
+	add_header 'Content-Type' 'text/plain charset=UTF-8';
+	add_header 'Content-Length' 0;
+	return 204;
+}
+```
+
+ahha..
+

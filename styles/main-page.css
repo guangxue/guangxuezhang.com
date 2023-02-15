@@ -1,0 +1,8 @@
+.main-page {
+	display: flex;
+	flex-direction: column;
+	margin: 2rem auto;
+	height: 100%;
+	max-width: 42rem;
+	padding: 1rem 2rem;
+}

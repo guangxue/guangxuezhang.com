@@ -1,0 +1,26 @@
+---
+title: Digitalocean initial server setup guide Ubuntu 22.04
+tags: digitalocean
+publish: 2023-01-22
+description: Setup fresh installed ubuntu server on digitalocean.
+slug: digitalocean-server-initial-setup-guide
+---
+
+# Create droplet with password
+To create droplet with pasword as SSH not work when first create, it can be setup later.
+
+# Create ssh key
+Open terminal, navigate to folder .ssh and type `ssh-key` to create ssh key.
+
+# Login to server setup user account
+1. `adduser` yourusername
+2. `usermod` -aG sudo yourusername
+3. `cd` /home
+4. `chmod` 755 yourusername/ **(change mod for Nginx access, otherwise you will see 404)**
+5. `mkdir` .ssh
+6. `cd` .ssh
+7. `touch` authorized_keys
+
+# Install Nginx 1.18
+To install Nginx, check this [Link](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-22-04)
+
