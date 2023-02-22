@@ -1,4 +1,4 @@
-import './globals.css'
+import '../globals.css'
 import MainHeader from '@/components/MainHeader'
 export default function RootLayout({
   children,
@@ -6,6 +6,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
+
     <html lang="en">
       {/*
         <head /> will contain the components returned by the nearest parent
