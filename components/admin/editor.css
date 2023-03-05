@@ -42,7 +42,7 @@ body {
 	user-select: none;
 }
 #editor::selection {
-	background-color:#2f2f2fba;
+	background-color: #646262;
 	color:#fff;
 	width: 10px;
 }

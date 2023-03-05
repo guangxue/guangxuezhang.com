@@ -1,30 +1,22 @@
 "use client"
 import './editor.css'
-import React, {
-	KeyboardEvent,
-	useEffect,
-	useRef,
-} from 'react'
-
-import {VimTextAreaEditor} from '@/utils/vimTextArea'
-
-interface LDATA{
-	LIDX: number,
-	LLEN: number,
-	LACC: number,
-	LSTR: string,
-}
+import React, { useEffect, useRef, useState } from 'react'
+import { VimEditor } from '@/utils/VimEditorTextArea/TextContent'
 
 const Editor = () => {
 	const editorRef = useRef<HTMLTextAreaElement>(null);
-		function addFrontMatter() {
+	function addFrontMatter() {
 		const initFrontMatter= "---\ntitle: \ntags: \npublish: \ndescription: \nslug: \n---\n";
 		if(editorRef.current) {
 			editorRef.current.value = '';
 			editorRef.current.value = initFrontMatter;
 		}
 	}
-	
+	function handlerKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+		const editor = VimEditor(e);
+		const action = editor.get(e.key)
+		action && action()
+	}
 	return (
 		<div className="editor-wrapper">
 			<div className="editor-actions">
@@ -34,12 +26,11 @@ const Editor = () => {
       	<button className='text-black hover:text-sky-600' onClick={addFrontMatter}>Add FrontMatter</button>
       </div>
       <textarea
-      	id='editor'
       	ref={editorRef}
-      	onKeyDown={(e)=>{console.log(VimTextAreaEditor);VimTextAreaEditor.onMode(e)}}
+      	id="editor"
+      	onKeyDown={handlerKeyDown}
       	placeholder="Type something..."
       	className="editor"
-      	data-typing="true"
       	spellCheck="false"
       ></textarea>
 		</div>

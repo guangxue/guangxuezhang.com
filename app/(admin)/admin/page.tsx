@@ -1,4 +1,3 @@
-"use client"
 import '../globals.admin.css'
 import AdminNavBar from '@/components/admin/navbar';
 import {
@@ -13,8 +12,6 @@ import { BsTerminalFill } from "react-icons/bs";
 import Link from 'next/link';
 import Editor from '@/components/admin/editor';
 
-
-
 const navbarIcons = [
   {name: AiOutlineDashboard, href: "/admin", label: 'Dashboard'},
   {name: AiOutlineFileText, href: "/admin/post/create", label: 'Post'},
@@ -23,10 +20,6 @@ const navbarIcons = [
 ]
 
 const AdminPage = () => {
-  function blodText() {
-    const selected = window.getSelection();
-    console.log(selected)
-  }
   return (
     <div className='admin-page flex'>
       <aside className="h-screen bg-zinc-50 w-40 p-2 border-r border-gray-200">
