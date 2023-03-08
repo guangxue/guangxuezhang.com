@@ -1,6 +1,15 @@
 import { InsertMode } from "./InsertMode";
 import { NormalMode } from "./NormalMode";
 
+let Global = Object.create(null)
+Object.defineProperties(Global, {
+	CATCH_FUNC: {value: null, writable: true, enumerable: true},
+	ELINE_FIXED_IDX: {value: -1, writable: true, enumerable: true},
+	NL: {value: 1, enumerable: true},
+	CARET: {value: 1, enumerable: true},
+	LAST_CARET: {value: -1, writable: true, enumerable: true},
+});
+
 interface Line{ LIDX: number, LLEN: number, LACC: number, LSTR: string };
 interface EditorType {
 	event: React.KeyboardEvent<HTMLTextAreaElement>;
@@ -17,40 +26,76 @@ interface EditorType {
 	aboveLine: Line | undefined;
 	above2Line: Line | undefined;
 	caretOfAboveLine: number;
-	LineBelow: Function;
 	caretOfBelowLine: Function;
+	LineBelow: Function;
 	resetTextArea: Function;
 	select: Function;
 	setAttr: Function;
 	removeAttr: Function;
 	add: Function;
 	pin: Function;
+	breaktext: Function;
+	setValue: Function;
+	endIndexOfCLINE: Number;
+	wordIndexes: Array<Number>;
+	testMsg: string;
 }
-
-let Global = Object.create(null)
-Object.defineProperties(Global, {
-	CATCH_FUNC: {value: null, writable: true, enumerable: true},
-	ELINE_FIXED_IDX: {value: -1, writable: true, enumerable: true},
-	NL: {value: 1, enumerable: true},
-	CARET: {value: 1, enumerable: true},
-	LAST_CARET: {value: -1, writable: true, enumerable: true},
-});
 
 
 export const BasicObject = {
-	add: function(name: string, body: any, writable: boolean) {
-		Object.defineProperty(this, name, { value: body, enumerable: true})
+	createObject: function() {
+		const OBJ = {
+			add: function(propName: string, propBody: any){
+				Object.defineProperty(this, propName, {value: propBody, writable: true, enumerable: true, configurable:true});
+			}
+		}
+		Object.setPrototypeOf(OBJ, null);
+		Object.defineProperty(OBJ, 'add', {enumerable:false});
+		return Object.create(OBJ)
 	},
-	on: function(key: string, action: Function){
-		Object.defineProperty(this, key, {value: action, writable: true, enumerable: true});
-	}
+	createMotion: function() {
+		const Motions = {
+			on: function(key: string, action: Function){
+				action.prototype = null;
+				Object.setPrototypeOf(action, null);
+				Object.defineProperty(this, key, {value: action, writable: true, enumerable: true});
+			},
+			end: function() {
+				Global.CATCH_FUNC = null;
+			},
+			get: function(actionKey: string) {
+				const keystr = parseInt(actionKey) >0 && parseInt(actionKey)<=9 ? '#': actionKey;
+				const idx = Object.keys(this).indexOf(keystr);
+				if(Global.CATCH_FUNC) {
+					const action = Global.CATCH_FUNC;
+					return action(actionKey)
+				} else {
+					const action = idx >= 0 ? Object.values(this).at(idx): null;
+					if(action && action.name.slice(0, 2) == '$_') {
+						Global.CATCH_FUNC = action;
+					}
+					return action;
+				}
+			},
+		}
+		Object.setPrototypeOf(Motions, null)
+		Object.defineProperties(Motions, {
+			on: {enumerable: false},
+			get: {enumerable: false},
+			end: {enumerable: false},
+		});
+		Motions.on.prototype = null
+		Motions.get.prototype = null
+		Motions.end.prototype = null
+		return Motions;
+	},
+	create: function() {return Object.create(null)},
 }
 Object.setPrototypeOf(BasicObject, null)
-
 const fn = (fnbody: Function) => { return fnbody() }
 
+const editor: EditorType = BasicObject.createObject();
 const VimEditor = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-	const editor: EditorType = Object.create(BasicObject);
 // ------------------------------
 // textArea attributes
 	editor.add('event', event);
@@ -60,6 +105,9 @@ const VimEditor = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
 	editor.add('caretStart', event.currentTarget.selectionStart);
 	editor.add('caretEnd', event.currentTarget.selectionEnd);
 	editor.add('caret', event.currentTarget.selectionStart);
+	editor.add('isset_elidx', fn(()=>{
+		return Global.ELINE_FIXED_IDX > 0
+	}))
 
 // -------------------------------
 // textArea lines data
@@ -88,6 +136,7 @@ const VimEditor = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
 		return cline;
 	}));
 	editor.add('NLIDX', editor.CLINE.LIDX+1);
+	editor.add('endIndexOfCLINE', editor.CLINE.LACC);
 	editor.add('indexOfCline', fn(()=>{
 		const currIdx = editor.CLINE ? editor.CLINE.LLEN-(editor.CLINE.LACC-editor.caret) : 0;
 		return currIdx;
@@ -112,37 +161,34 @@ const VimEditor = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
 		}
 	}));
 	editor.add('LineBelow',()=>{
-		if(!editor.LinesData[editor.NLIDX]) {
-			throw editor.aboveLine && editor.aboveLine.LACC + Global.ELINE_FIXED_IDX
-		}
-		return editor.LinesData[editor.NLIDX];
+		return editor.LinesData[editor.NLIDX]
 	});
-	editor.add('caretOfBelowLine',(()=>{
-		try{
-			const LB = editor.LineBelow();
-			if(Global.ELINE_FIXED_IDX > 0) {
-				return editor.CLINE.LACC + Global.ELINE_FIXED_IDX;
-			}else {
-				return editor.CLINE.LACC + editor.indexOfCline;
-			}
-		}catch(e) {
-			console.log('-- Error of LineBelow --')
-			console.log(e)
+	editor.add('caretOfBelowLine', ()=>{
+		const NLine = editor.LineBelow();
+		if(NLine) {
+			const nextIdx = Global.ELINE_FIXED_IDX > 0 ? Global.ELINE_FIXED_IDX : editor.indexOfCline;
+			const nextCaret = nextIdx > NLine.LSTR.length ? NLine.LACC - 2 : editor.CLINE.LACC+nextIdx;
+			return nextCaret;
 		}
-	}));
+	});
 
 
 // -------------------------------
-// editor methods
+// editor motions and operators commands
+	editor.add('motions', ['k', 'j', 'w', 'W', 'l', 'h'])
+	editor.add('operators', ['c', 'd', 'y', '~'])
+
+// -------------------------------
+// editor functions
 	editor.add('resetTextArea', () => {
 		const newRawtext = editor.textArea.value.replaceAll('\n\n', '\n \n')
 		editor.textArea.value = newRawtext;
 	})
-	editor.add('pin', (startOffset:number, endOffset?:number) => {
-		if(endOffset) {
-			editor.textArea.setSelectionRange(startOffset, endOffset)
+	editor.add('pin', (start: number, end?: number) => {
+		if(end) {
+			editor.textArea.setSelectionRange(start, end)
 		}else {
-			editor.textArea.setSelectionRange(startOffset, startOffset)
+			editor.textArea.setSelectionRange(start, start)
 		}
 	})
 	editor.add('setAttr', (name: string, value: string) => {
@@ -150,32 +196,30 @@ const VimEditor = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
 	editor.add('removeAttr', (name: string) => {
 		editor.textArea.removeAttribute(name);
 	});
+	editor.add('breaktext', (breakpoint: number, joinAt?: number)=>{
+		const textahead = editor.textArea.value.substring(0, breakpoint);
+		const textbehind = joinAt ?
+			editor.textArea.value.substring(joinAt, editor.lenOfContent) :
+			editor.textArea.value.substring(breakpoint, editor.lenOfContent);
+		return [textahead, textbehind];
+	})
+	editor.add('setValue', (value: string)=>{
+		editor.textArea.value = value;
+	})
 
-	const actions = (keyname: string) => {
+	const VimEditor = BasicObject.createObject();
+	VimEditor.add('get', (keyName: string)=>{
 		if(editor.isReadonly) {
-			const normal = NormalMode(editor);
-			const idx = Object.keys(normal).indexOf(keyname)
-			if(Global.CATCH_FUNC) {
-				const action = Global.CATCH_FUNC;
-				return action(editor.event.key)
-			}else{
-				const action = idx >= 0 ? Object.values(normal).at(idx): null
-				if(action && action.name.startsWith('$')) {
-					Global.CATCH_FUNC = action;
-				}
-				return action;
-			}
+			const normalMotions = NormalMode(editor);
+			const keyAction = normalMotions.get(editor.event.key)
+			return keyAction;
 		}
 		else {
-			const insert = InsertMode(editor);
-			const idx = Object.keys(insert).indexOf(keyname)
-			const action = idx >= 0 ? Object.values(insert).at(idx) : ""
-			return action;
+			const insertMotions = InsertMode(editor);
+			const keyAction = insertMotions.get(keyName)
+			return keyAction;
 		}
-	}
-	const VimEditor = Object.create(BasicObject);
-	VimEditor.add('get', actions)
-
+	})
 	return VimEditor;
 }
 

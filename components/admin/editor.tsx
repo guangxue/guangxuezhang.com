@@ -1,7 +1,8 @@
 "use client"
+
 import './editor.css'
-import React, { useEffect, useRef, useState } from 'react'
-import { VimEditor } from '@/utils/VimEditorTextArea/TextContent'
+import React, { useRef } from 'react'
+import { VimEditor } from '@/lib/VimEditor/VimEditor'
 
 const Editor = () => {
 	const editorRef = useRef<HTMLTextAreaElement>(null);
@@ -31,8 +32,9 @@ const Editor = () => {
       	onKeyDown={handlerKeyDown}
       	placeholder="Type something..."
       	className="editor"
-      	spellCheck="false"
-      ></textarea>
+      	spellCheck="false">
+      </textarea>
+    	{/*<div className="statusbar" >Mode:</div>*/}
 		</div>
 	)
 }
