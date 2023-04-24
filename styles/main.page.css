@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "@/styles/syntax-highlighting.css";
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;1,400;1,500&display=swap");
+
+code:not([data-language]),
+code:not(.language-*) {
+  background-color: #557a95;
+  border-radius: 3px;
+  padding: 2px;
+  font-size: 13px;
+  color: #fff;
+}
+
+.link-underline:before {
+  content: "";
+  position: absolute;
+  bottom: -0.2em;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(to right, #000 45%, #fff 55%);
+  background-size: 220% 100%;
+  background-position: 100% 50%;
+  transition: 0.3s ease-out;
+}
+.link-underline {
+  position: relative;
+  display: inline-block;
+  line-height: normal;
+  color: black;
+  border: none;
+  cursor: pointer;
+}
+
+.link-underline-color {
+  position: relative;
+  display: inline-block;
+  line-height: normal;
+  color: teal;
+  border: none;
+  cursor: pointer;
+}
+.link-underline-color:hover {
+  color: #000;
+}
+.link-underline-color:before {
+  content: "";
+  position: absolute;
+  bottom: -0.2em;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(to right, #fff 45%, teal 55%);
+  background-size: 220% 100%;
+  background-position: 100% 50%;
+  transition: 0.3s ease-out;
+}
+.link-underline-color:hover:before {
+  background-position: 0% 50%;
+}
+.link-underline:hover:before {
+  background-position: 0% 50%;
+}
+
+.zoom:hover > img {
+  transition: 0.2s ease-in-out;
+  transform: scale(1.6);
+}
+
+/* #tech-stack {
+  position: relative;
+}
+
+#tech-stack::before {
+  content: "Object{ Skills : ";
+  color: orange;
+  top: -1px;
+  position: absolute;
+  left: 11px;
+}
+
+#tech-stack::after {
+  content: "}";
+  color: orange;
+  left: 24px;
+  position: absolute;
+  bottom: 0;
+  left: 13px;
+} */

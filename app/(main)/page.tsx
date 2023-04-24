@@ -1,0 +1,114 @@
+"use client";
+import Image from "next/image";
+import photo from "@/public/me.jpg";
+
+export default function HomePage() {
+  return (
+    <div className="HomePage flex flex-col h-screen gap-5">
+      <div className="HomePage_intro flex flex-wrap sm:justify-start justify-center items-center ">
+        <Image
+          src={photo}
+          alt="photo"
+          className="sm:ml-16 sm:mr-5 mx-5 sm:w-[200px] sm:h-[200px] w-[100px] h-[100px]"
+          width={200}
+          height={200}
+        />
+        <hgroup className="sm:mx-12 sm:my-5 mx-5 font-jumbo">
+          <h1 className="flex flex-col my-2 sm:text-4xl text-xl">
+            Hello.
+            <span className="my-1 sm:text-3xl text-lg">I&apos;m Guangxue</span>
+          </h1>
+          <h2 className="my-1 sm:text-2xl text-sm">
+            A front end web developer.
+          </h2>
+        </hgroup>
+        <div className="flex flex-wrap gap-3 md:basis-full lg:basis-1/3 basis-full p-6">
+          <div className="border border-slate-400 px-2 py-1 rounded sm:text-sm text-xs">
+            HTML/CSS
+          </div>
+          <div className="border border-slate-400 px-2 py-1 rounded sm:text-sm text-xs">
+            React.js
+          </div>
+          <div className="border border-slate-400 px-2 py-1 rounded sm:text-sm text-xs">
+            PHP
+          </div>
+          <div className="border border-slate-400 px-2 py-1 rounded sm:text-sm text-xs">
+            Go
+          </div>
+          <div className="border border-slate-400 px-2 py-1 rounded sm:text-sm text-xs">
+            Python
+          </div>
+          <div className="border border-slate-400 px-2 py-1 rounded sm:text-sm text-xs">
+            Node.js
+          </div>
+          <div className="border border-slate-400 px-3 py-1 rounded sm:text-sm text-xs">
+            Ubuntu
+          </div>
+          <div className="border border-slate-400 px-3 py-1 rounded sm:text-sm text-xs">
+            Shell Script
+          </div>
+          <div className="border border-slate-400 px-3 py-1 rounded sm:text-sm text-xs">
+            Vimscript
+          </div>
+          <div className="border border-slate-400 px-3 py-1 rounded sm:text-sm text-xs">
+            MySQL
+          </div>
+        </div>
+      </div>
+      <div className="HomePage_posts flex flex-wrap m-6 font-jumbo gap-5">
+        <div className="LatestPost flex sm:basis-full md:basis-[46%] lg:basis-[32%] bg-neutral-50">
+          <div className="pic m-3">
+            <img src="/nextjs.svg" alt="" width={150} height={150} />
+          </div>
+          <article className="desc m-1">
+            <h3>Using TypeScript with Next.js to define dynamic</h3>
+            <p>
+              When it comes to build personal portfolio/ blog, a static site is
+              written in markdown that becomes the first choice , and I'm no
+              exception.
+            </p>
+          </article>
+        </div>
+        <div className="LatestPost flex sm:basis-full md:basis-[46%] lg:basis-[32%] bg-neutral-50">
+          <div className="pic m-3">
+            <img src="/contentlayer.png" alt="" width={150} height={150} />
+          </div>
+          <div className="desc m-1">
+            <h3>Using TypeScript with Next.js to define dynamic</h3>
+            <p>
+              When it comes to build personal portfolio/ blog, a static site is
+              written in markdown that becomes the first choice , and I'm no
+              exception.
+            </p>
+          </div>
+        </div>
+        <div className="LatestPost flex sm:basis-full md:basis-[46%] lg:basis-[32%] bg-neutral-50">
+          <div className="pic m-3">
+            <img src="/digitalocean.png" alt="" width={150} height={150} />
+          </div>
+          <div className="desc m-1">
+            <h3>Using TypeScript with Next.js to define dynamic</h3>
+            <p>
+              When it comes to build personal portfolio/ blog, a static site is
+              written in markdown that becomes the first choice , and I'm no
+              exception.
+            </p>
+          </div>
+        </div>
+        <div className="LatestPost flex sm:basis-full md:basis-[46%] lg:basis-[32%] bg-neutral-50">
+          <div className="pic m-3">
+            <img src="/nextjs.svg" alt="" width={150} height={150} />
+          </div>
+          <div className="desc m-1">
+            <h3>Using TypeScript with Next.js to define dynamic</h3>
+            <p>
+              When it comes to build personal portfolio/ blog, a static site is
+              written in markdown that becomes the first choice , and I'm no
+              exception.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
