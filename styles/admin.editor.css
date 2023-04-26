@@ -31,6 +31,7 @@ body {
   color: transparent; /*  */
   caret-color: #000; /*  */
   z-index: 8;
+  width: 100%;
 }
 
 #editor::selection {

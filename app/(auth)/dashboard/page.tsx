@@ -1,11 +1,10 @@
-import { getServerSession } from "next-auth";
-import { authOption } from "../api/auth/[...nextauth]/route";
 import AdminDashboard from "@/components/admin/Dashboard";
 import UserDashboard from "@/components/user/Dashboard";
+import { authOption } from "../api/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
 
 export default async function Dashboard() {
   const session = await getServerSession(authOption);
-
   if (session?.user.role === "Admin") {
     return <AdminDashboard />;
   }

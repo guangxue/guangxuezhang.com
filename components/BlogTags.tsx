@@ -1,8 +1,14 @@
 "use client";
-import { allBlogTags } from "@/utils/blogdata";
+// import { allBlogTags } from "@/utils/blogdata";
 import { MouseEvent } from "react";
 
 const BlogTags = ({ onSearchTag }: any) => {
+  /**
+   * @todo
+   * hard code allBlogTags just for now.
+   * It will be implementing dymatic fetching blog tags.
+   */
+  const allBlogTags = ["Next.js", "digitalocean", "personal", "JavaScript", "React.js"]
   function handleTag(e: MouseEvent) {
     const target = e.target as HTMLElement;
     const clickedTagname = target.innerText;

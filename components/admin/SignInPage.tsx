@@ -1,13 +1,11 @@
 "use client";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
 import React from "react";
 
 function AdminSignInPage() {
   const uname = React.useRef<HTMLInputElement>(null);
   const pwd = React.useRef<HTMLInputElement>(null);
-  const searchParams = useSearchParams();
   const [err, setErr] = React.useState<string>("");
   const router = useRouter();
 

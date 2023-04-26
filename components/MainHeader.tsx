@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const MainHeader = () => {
   return (
@@ -6,7 +7,7 @@ const MainHeader = () => {
       <nav>
         <ul className="flex list-none sm:space-x-16 space-x-8">
           <li className="zoom flex justify-center items-center sm:space-x-2 space-x-1 object-contain">
-            <img
+            <Image
               src="/home.svg"
               alt="homelogo"
               width={20}
@@ -18,19 +19,19 @@ const MainHeader = () => {
             </Link>
           </li>
           <li className="zoom flex justify-center items-center sm:space-x-2 space-x-1 object-contain">
-            <img
+            <Image
               src="/blog.svg"
               alt="homelogo"
               width={20}
               height={15}
               className="m-0 w-[13px] h-[13px]"
             />
-            <Link href="/blog">
+            <a href="/blog">
               <span className="link-underline">blog</span>
-            </Link>
+            </a>
           </li>
           <li className="zoom flex justify-center items-center sm:space-x-2 space-x-1 object-contain">
-            <img
+            <Image
               src="/demo.svg"
               alt="homelogo"
               width={20}
@@ -42,7 +43,7 @@ const MainHeader = () => {
             </Link>
           </li>
           <li className="zoom flex justify-center items-center sm:space-x-2 space-x-1 object-contain">
-            <img
+            <Image
               src="/about.svg"
               alt="homelogo"
               width={20}

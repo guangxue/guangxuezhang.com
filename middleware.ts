@@ -11,8 +11,8 @@ export async function middleware(req: NextRequest) {
   if (req.nextUrl.pathname === "/user" && authToken === null) {
     return NextResponse.redirect(`${signInUrl}?role=user`);
   }
-
   if (authToken) {
+    console.log(authToken);
     return NextResponse.rewrite(`${process.env.NEXTAUTH_URL}dashboard`);
   }
 }

@@ -1,17 +1,22 @@
-"use client";
 import AdminSignInPage from "@/components/admin/SignInPage";
 import UserSignInPage from "@/components/user/SignInPage";
-import { useSearchParams } from "next/navigation";
 
-export default function AuthSignInPage() {
-  const params = useSearchParams();
-  const role = params.get("role");
+export interface PageProps {
+  params?: any
+  searchParams?: { role: string }
+}
 
-  if (role === "admin") {
-    return <AdminSignInPage />;
+export default function AuthSignInPage({ searchParams }: PageProps) {
+
+  if (searchParams?.role === "admin") {
+    return (
+      <AdminSignInPage />
+    )
   }
 
-  if (role === "user") {
-    return <UserSignInPage />;
+  if (searchParams?.role === "user") {
+    return (
+      <UserSignInPage />
+    )
   }
 }

@@ -14,7 +14,6 @@ const Editor = () => {
     const action = editor.getAction(e.key);
     action && action();
   }
-
   function handleInputText(e: React.ChangeEvent<HTMLTextAreaElement>) {
     if (editorArea.current) {
       editorArea.current.style.height = "auto";
@@ -39,7 +38,6 @@ const Editor = () => {
         })
         .then((msg) => {
           console.log("Response Message: ", msg);
-          router.refresh();
         })
         .catch((err) => {
           console.log(err);
@@ -48,7 +46,7 @@ const Editor = () => {
     return () => {
       setSavePost(false);
     };
-  }, [savePost]);
+  }, [savePost, router]);
 
   return (
     <div className="editor-container grow">

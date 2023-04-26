@@ -61,6 +61,8 @@ export const authOption: NextAuthOptions = {
   },
   callbacks: {
     async jwt({ token, user, account, profile }) {
+      // console.log("<JWT callback>");
+      // console.log("token: ", token);
       if (account && user) {
         token.accessToken = account.access_token;
         if (user.role === null) {
@@ -69,6 +71,7 @@ export const authOption: NextAuthOptions = {
           token.role = user.role;
         }
       }
+      // console.log("</JWT>");
       return token;
     },
     async session({ session, user, token }) {

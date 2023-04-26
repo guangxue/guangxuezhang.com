@@ -1,16 +1,11 @@
-"use client";
-import { signOut } from "next-auth/react";
+import SignOutButton from "../SignOutButton";
 
 export default function UserDashboard() {
   return (
     <div>
       <h1>User Panel</h1>
       <div>
-        <button
-          onClick={() => signOut({ callbackUrl: process.env.NEXTAUTH_URL })}
-        >
-          Sign Out
-        </button>
+        <SignOutButton />
       </div>
     </div>
   );
