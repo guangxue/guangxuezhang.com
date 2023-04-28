@@ -16,7 +16,7 @@ const BlogSlugPage = async ({ params }: Params) => {
 
   if (post) {
     return (
-      <article className="max-w-[88%] self-center p-8">
+      <article className="max-w-3xl self-center p-8">
         {/*@ts-expect-error Async JSX Component */}
         <MDXRemote source={post.content} />
       </article>

@@ -5,7 +5,7 @@ export default function GithubSignInButton() {
   return (
     <button
       className="flex gap-3 border border-neutral-200 justify-center items-center py-2 px-6 hover:bg-stone-50"
-      onClick={() => signIn("github", { callbackUrl: "http://localhost:2322/dashboard" })}
+      onClick={() => signIn("github", { callbackUrl: "https://guangxuezhang.com/dashboard" })}
     >
       <svg
         width="20px"

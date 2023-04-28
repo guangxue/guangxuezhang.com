@@ -17,8 +17,8 @@ const navbarIcons = [
 
 const SideBar = () => {
   return (
-    <aside className="admin-sidebar admin-sidebar-left border-r border-gray-200 h-screen px-2">
-      <nav className="space-y-6 mt-5">
+    <aside className="admin-sidebar admin-sidebar-left border-r border-gray-200 h-screen px-2 basis-[15%]">
+      <nav className="space-y-8 mt-5 px-8 py-5">
         {navbarIcons.map((icon) => {
           return (
             <Link

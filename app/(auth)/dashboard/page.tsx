@@ -6,11 +6,11 @@ import { getServerSession } from "next-auth";
 export default async function Dashboard() {
   const session = await getServerSession(authOption);
   if (session?.user.role === "Admin") {
-    return <AdminDashboard />;
+    return <AdminDashboard adminInfo={session.user} />;
   }
 
   if (session?.user.role === "User") {
-    return <UserDashboard />;
+    return <UserDashboard userInfo={session.user} />;
   }
 
   if (session === null) {

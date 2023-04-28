@@ -3,6 +3,13 @@ import React from "react";
 import { VimEditor } from "@/lib/VimEditor/VimEditor";
 import { Highlights } from "@/lib/VimEditor/Highlights";
 import { useRouter } from "next/navigation";
+import { Inconsolata } from "next/font/google";
+
+const Incon = Inconsolata({
+  subsets: ["latin"],
+  weight: ["300", "400"],
+  variable: "--editor-font",
+});
 
 const Editor = () => {
   const [savePost, setSavePost] = React.useState<boolean>(false);
@@ -49,7 +56,7 @@ const Editor = () => {
   }, [savePost, router]);
 
   return (
-    <div className="editor-container grow">
+    <div className="editor-container basis-[58%]">
       <div className="editor-wrapper">
         <div className="editor-actions">
           <button className="text-black hover:text-sky-600">Preview</button>
@@ -65,13 +72,13 @@ const Editor = () => {
           </button>
         </div>
         <div className="pre-editor-wrapper">
-          <pre id="output"></pre>
+          <pre id="output" className="font-Incon"></pre>
           <textarea
             id="editor"
             onKeyDown={handleKeyDown}
             onInput={handleInputText}
             placeholder="Type something..."
-            className="editor"
+            className="editor font-Incon"
             spellCheck="false"
             ref={editorArea}
           ></textarea>

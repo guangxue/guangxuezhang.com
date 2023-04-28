@@ -5,7 +5,7 @@ export default function GoogleSignInButton() {
   return (
     <button
       className="flex gap-3 border border-neutral-200 justify-center items-center py-2 px-6 hover:bg-stone-50"
-      onClick={() => signIn("google", { callbackUrl: "http://localhost:2322/dashboard" })}
+      onClick={() => signIn("google", { callbackUrl: "https://guangxuezhang.com/dashboard" })}
     >
       <span className="flex justify-center items-center gap-3">
         <svg

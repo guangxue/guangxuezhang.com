@@ -10,6 +10,7 @@ module.exports = {
       fontFamily: {
         skils: "var(--skills-font)",
         jumbo: "var(--jumbo-font)",
+        Incon: "var(--editor-font)",
       },
     },
   },
