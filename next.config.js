@@ -5,9 +5,6 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
-  env: {
-    baseUrl: "http://localhost:2322",
-  },
 };
 
 // module.exports = withContentlayer(nextConfig);

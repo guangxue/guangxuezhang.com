@@ -39,11 +39,7 @@ const Highlights = (inputText: string, outputElement: HTMLElement) => {
   // replace current inputText with highlights.
   function highlights(inputText: string) {
     for (const [tokname, tokexpr] of Object.entries(Tokens)) {
-      inputText = inputText.replace(
-        tokexpr,
-        // `$@$<span class='${tokname}'>$1</span>$@$`
-        `@^${tokname}&$1@^`
-      );
+      inputText = inputText.replace(tokexpr, `@^${tokname}&$1@^`);
     }
     return inputText;
   }
@@ -52,13 +48,8 @@ const Highlights = (inputText: string, outputElement: HTMLElement) => {
   let NodeTree: Node[] = [];
 
   // start re-creating NodeList
-  // console.log("--- <before spliting> ---");
   const hiText = highlights(inputText);
-  // console.log(hiText);
   const piText = hiText.split("@^");
-
-  // console.log("--- after spliting ---");
-  // console.log(piText);
 
   piText.map((segment) => {
     if (segment.includes("&")) {

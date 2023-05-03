@@ -1,4 +1,4 @@
-import AdminDashboard from "@/components/admin/Dashboard";
+import AdminDashboardRouter from "@/components/admin/AdminDashboardRouter";
 import UserDashboard from "@/components/user/Dashboard";
 import { authOption } from "../api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
@@ -6,13 +6,11 @@ import { getServerSession } from "next-auth";
 export default async function Dashboard() {
   const session = await getServerSession(authOption);
   if (session?.user.role === "Admin") {
-    return <AdminDashboard adminInfo={session.user} />;
+    return <AdminDashboardRouter adminInfo={session.user} />;
   }
-
   if (session?.user.role === "User") {
     return <UserDashboard userInfo={session.user} />;
   }
-
   if (session === null) {
     return (
       <div className="prose flex flex-col justify-center items-center m-10">
@@ -30,4 +28,5 @@ export default async function Dashboard() {
       </div>
     );
   }
+
 }

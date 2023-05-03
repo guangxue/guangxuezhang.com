@@ -40,7 +40,7 @@ next-env.d.ts
 .contentlayer
 
 # prisma
-prisma
+/prisma/seed.ts
 
 # Posts
 posts

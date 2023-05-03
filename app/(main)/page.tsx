@@ -1,8 +1,31 @@
-"use client";
 import Image from "next/image";
 import photo from "@/public/me.jpg";
+import { prisma } from "@/lib/globals/db";
+import LatestPost from "@/components/LatestPost";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const latestPostsQty: number = Number((await prisma.settings.findUnique({
+    where: {
+      name: "latestPostsQty"
+    },
+    select: {
+      value: true,
+    }
+  }))?.value);
+
+  const latestPosts = await prisma.post.findMany({
+    take: latestPostsQty,
+    where: {
+      draft: false,
+    },
+    select: {
+      id: true,
+      logo: true,
+      title: true,
+      intro: true,
+      slug: true,
+    },
+  });
   return (
     <div className="HomePage flex flex-col h-screen gap-5">
       <div className="HomePage_intro flex flex-wrap sm:justify-start justify-center items-center ">
@@ -13,7 +36,7 @@ export default function HomePage() {
           width={200}
           height={200}
         />
-        <hgroup className="sm:mx-12 sm:my-5 mx-5 font-jumbo">
+        <hgroup className="sm:mx-12 sm:my-5 mx-5 font-lora">
           <h1 className="flex flex-col my-2 sm:text-4xl text-xl">
             Hello.
             <span className="my-1 sm:text-3xl text-lg">I&apos;m Guangxue</span>
@@ -55,59 +78,10 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-      <div className="HomePage_posts flex flex-wrap m-6 font-jumbo gap-5">
-        <div className="LatestPost flex sm:basis-full md:basis-[46%] lg:basis-[32%] bg-neutral-50">
-          <div className="pic m-3">
-            <Image src="/nextjs.svg" alt="" width={150} height={150} />
-          </div>
-          <article className="desc m-1">
-            <h3>Using TypeScript with Next.js to define dynamic</h3>
-            <p>
-              When it comes to build personal portfolio/ blog, a static site is
-              written in markdown that becomes the first choice , and I&apos;m no
-              exception.
-            </p>
-          </article>
-        </div>
-        <div className="LatestPost flex sm:basis-full md:basis-[46%] lg:basis-[32%] bg-neutral-50">
-          <div className="pic m-3">
-            <Image src="/contentlayer.png" alt="" width={150} height={150} />
-          </div>
-          <div className="desc m-1">
-            <h3>Using TypeScript with Next.js to define dynamic</h3>
-            <p>
-              When it comes to build personal portfolio/ blog, a static site is
-              written in markdown that becomes the first choice , and I&apos;m no
-              exception.
-            </p>
-          </div>
-        </div>
-        <div className="LatestPost flex sm:basis-full md:basis-[46%] lg:basis-[32%] bg-neutral-50">
-          <div className="pic m-3">
-            <Image src="/digitalocean.png" alt="" width={150} height={150} />
-          </div>
-          <div className="desc m-1">
-            <h3>Using TypeScript with Next.js to define dynamic</h3>
-            <p>
-              When it comes to build personal portfolio/ blog, a static site is
-              written in markdown that becomes the first choice , and I&apos;m no
-              exception.
-            </p>
-          </div>
-        </div>
-        <div className="LatestPost flex sm:basis-full md:basis-[46%] lg:basis-[32%] bg-neutral-50">
-          <div className="pic m-3">
-            <Image src="/nextjs.svg" alt="" width={150} height={150} />
-          </div>
-          <div className="desc m-1">
-            <h3>Using TypeScript with Next.js to define dynamic</h3>
-            <p>
-              When it comes to build personal portfolio/ blog, a static site is
-              written in markdown that becomes the first choice , and I&apos;m no
-              exception.
-            </p>
-          </div>
-        </div>
+      <div className="HomePage_posts flex flex-wrap m-6 font-lora gap-5">
+        {latestPosts.map(post => {
+          return <LatestPost post={post} key={post.id} />
+        })}
       </div>
     </div>
   );

@@ -8,11 +8,11 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        skils: "var(--skills-font)",
-        jumbo: "var(--jumbo-font)",
-        Incon: "var(--editor-font)",
-      },
-    },
+        lora: ['var(--font-lora)'],
+        kanit: ['var(--font-kanit)'],
+        incon: ['var(--font-inconsolata)'],
+      }
+    }
   },
   plugins: [require("@tailwindcss/typography")],
 };

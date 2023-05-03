@@ -11,6 +11,7 @@ const BlogPage = async () => {
       title: true,
       intro: true,
       publish: true,
+      logo: true,
     },
   });
 
@@ -27,6 +28,7 @@ const BlogPage = async () => {
               publish={blog.publish}
               intro={blog.intro}
               slug={blog.slug}
+              logo={blog.logo}
             />
           ))}
         </div>

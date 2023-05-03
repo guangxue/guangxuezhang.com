@@ -1,4 +1,5 @@
-import Link from "next/link";
+"use client"
+import { useSidebarRoutes } from "./RouterProvider";
 import {
   AiOutlineDashboard,
   AiOutlineFileText,
@@ -6,29 +7,32 @@ import {
   AiOutlineTeam,
   AiFillHome,
 } from "react-icons/ai";
+import React from "react";
 
-const navbarIcons = [
-  { name: AiFillHome, href: "/", label: "Home" },
-  { name: AiOutlineDashboard, href: "/admin", label: "Dashboard" },
-  { name: AiOutlineFileText, href: "/admin/post/create", label: "Post" },
-  { name: AiOutlineComment, href: "/admin/comments", label: "Comments" },
-  { name: AiOutlineTeam, href: "/admin/users", label: "Users" },
-];
+const Sidebar = () => {
+  const { routeDispatch } = useSidebarRoutes();
 
-const SideBar = () => {
+  const navbarIcons = [
+    { name: AiFillHome, onClick: () => { routeDispatch({ type: "Home", payload: {} }) }, label: "Home" },
+    { name: AiOutlineDashboard, onClick: () => { routeDispatch({ type: "Editor", payload: {} }) }, label: "Editor" },
+    { name: AiOutlineFileText, onClick: () => { routeDispatch({ type: "Posts", payload: {} }) }, label: "Posts" },
+    { name: AiOutlineComment, onClick: () => { routeDispatch({ type: "Comments", payload: {} }) }, label: "Comments" },
+    { name: AiOutlineTeam, onClick: () => { routeDispatch({ type: "Users", payload: {} }) }, label: "Users" },
+  ];
+
   return (
-    <aside className="admin-sidebar admin-sidebar-left border-r border-gray-200 h-screen px-2 basis-[15%]">
+    <aside className="admin-sidebar admin-sidebar-left border-r border-gray-200 px-2 basis-[15%] lg:basis-[13%]">
       <nav className="space-y-8 mt-5 px-8 py-5">
         {navbarIcons.map((icon) => {
           return (
-            <Link
-              key={icon.href}
-              href={icon.href}
+            <button
+              key={icon.label}
+              onClick={icon.onClick}
               className="flex items-center gap-2"
             >
               <icon.name />
               <span>{icon.label}</span>
-            </Link>
+            </button>
           );
         })}
       </nav>
@@ -36,4 +40,4 @@ const SideBar = () => {
   );
 };
 
-export default SideBar;
+export default Sidebar;

@@ -16,8 +16,6 @@
   outline: none;
   resize: none;
   padding: 0.5rem 0.4rem;
-  font-weight: 300;
-  font-size: 15px;
   /* border-bottom: 1px solid #000; */
   background-color: transparent; /*  */
   color: transparent; /*  */
@@ -41,10 +39,15 @@
   position: absolute;
   box-sizing: border-box;
   padding: 0.5rem 0.4rem;
-  font-weight: 300;
-  font-size: 11pt;
+  font-weight: 400;
+  font-size: 18px;
   white-space: pre-wrap;
   word-wrap: break-word;
+  font-family: var(--font-incon);
+}
+
+#output code {
+  font-family: var(--font-incon);
 }
 #output {
   z-index: 0;
