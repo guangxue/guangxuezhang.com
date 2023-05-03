@@ -3,6 +3,8 @@ import photo from "@/public/me.jpg";
 import { prisma } from "@/lib/globals/db";
 import LatestPost from "@/components/LatestPost";
 
+export const revalidate = 6;
+
 export default async function HomePage() {
   const latestPostsQty: number = Number((await prisma.settings.findUnique({
     where: {

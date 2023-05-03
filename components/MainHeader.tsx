@@ -14,9 +14,9 @@ const MainHeader = () => {
               height={15}
               className="m-0 w-[13px] h-[13px]"
             />
-            <Link href="/">
+            <a href="/">
               <span className="link-underline">home</span>
-            </Link>
+            </a>
           </li>
           <li className="zoom flex justify-center items-center sm:space-x-2 space-x-1 object-contain">
             <Image
