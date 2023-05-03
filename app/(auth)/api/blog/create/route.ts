@@ -27,6 +27,7 @@ export async function POST(req: NextRequest) {
         title: metadata.data.title,
         intro: metadata.data.intro,
         tags: metadata.data.tags,
+        logo: metadata.data.logo,
         slug: metadata.data.slug,
         publish: metadata.data.publish,
         content: metadata.content,

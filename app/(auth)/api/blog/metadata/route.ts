@@ -1,11 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/globals/db";
 
-// Handling GET request
 export async function POST(req: NextRequest) {
   const action = await req.json();
-  console.log("recevied data:");
-  console.log(action);
   switch (action.name) {
     case "getPostMetadata":
       try {
@@ -14,10 +11,10 @@ export async function POST(req: NextRequest) {
           select: {
             id: true,
             slug: true,
+            logo: true,
             title: true,
             intro: true,
             publish: true,
-            logo: true,
           },
         });
         const blogMetaJSON = JSON.stringify(blogMetadata);

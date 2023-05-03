@@ -17,7 +17,7 @@ const BlogPage = async () => {
 
   if (Array.isArray(blogMetadata) && blogMetadata.length >= 0) {
     return (
-      <section className="BlogPage flex flex-col m-8  font-jumbo">
+      <section className="BlogPage flex flex-col m-8 font-lora">
         <h1>All blogs</h1>
         <div className="BlogPreviews flex flex-wrap gap-6">
           {blogMetadata.map((blog: any) => (

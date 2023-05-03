@@ -74,7 +74,7 @@ const Editor = () => {
   }, [savePost, editorArea, trigger]);
 
   function addFrontMatterHandler() {
-    const fm = "---\ntitle: \nslug: \ntags: \npublish: \nintro: \n---\n";
+    const fm = "---\ntitle: \nslug: \ntags: \nlogo: \npublish: \nintro: \n---\n";
     if (editorArea.current) {
       editorArea.current.value = fm;
       setTrigger(true)
@@ -82,18 +82,18 @@ const Editor = () => {
   }
 
   return (
-    <div className="editor-container basis-[80%] lg:basis-[85%]">
-      <div className="editor-wrapper">
-        <div className="editor-actions">
-          <button className="text-black hover:text-sky-600">Preview</button>
-          <button className="text-black hover:text-sky-600">Save as draft</button>
-          <button className="text-black hover:text-sky-600" onClick={() => setSavePost(true)}>Publish</button>
-          <button className="text-black hover:text-sky-600" onClick={addFrontMatterHandler}>
+    <div className="editor-container w-screen flex">
+      <div className="editor-wrapper basis-[80%] lg:basis-[58%] border border-gray-500">
+        <div className="editor-actions border-b border-gray-500 bg-slate-100 p-1 text-gray-600">
+          <button className="px-4 py-2 text-center text-sm font-semibold hover:bg-slate-50 rounded" onClick={() => setSavePost(true)}>Publish</button>
+          <button className="px-4 py-2 text-center text-sm font-semibold hover:bg-slate-50 rounded">Preview</button>
+          <button className="px-4 py-2 text-center text-sm font-semibold hover:bg-slate-50 rounded">Save as draft</button>
+          <button className="px-4 py-2 text-center text-sm font-semibold hover:bg-slate-50 rounded" onClick={addFrontMatterHandler}>
             Add FrontMatter
           </button>
         </div>
         <div className={`pre-editor-wrapper ${Incon.className}`}>
-          <pre id="output"></pre>
+          <pre id="output" className=" bg-white"></pre>
           <textarea
             id="editor"
             onKeyDown={handleVimKeys}
@@ -101,6 +101,7 @@ const Editor = () => {
             placeholder="Type something..."
             spellCheck="false"
             ref={editorArea}
+            rows={10}
           ></textarea>
         </div>
       </div>

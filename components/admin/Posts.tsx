@@ -1,5 +1,6 @@
 "use client"
 import React from 'react';
+import Image from 'next/image';
 import { useSidebarRoutes } from './RouterProvider';
 
 type PostProps = {
@@ -89,8 +90,6 @@ export default function Posts() {
     }
     const id = target.post_id.value;
     const postData = { name: "updateMetadata", updates: updateInfo, id }
-    console.log("posting Data...");
-    console.log(postData);
     fetch("/api/blog/metadata", {
       method: "POST",
       headers: {
@@ -109,35 +108,40 @@ export default function Posts() {
 
 
   return (
-    <div className='flex gap-6 flex-wrap flex-grow justify-center items-center'>
+    <div className='flex gap-6 flex-wrap flex-grow justify-center items-center p-6 overflow-auto'>
+      <div className='basis-full'>
+        <h1>Update Post Metadata</h1>
+      </div>
       {posts.map((post: PostProps) => {
         return (
-          <form onSubmit={updateMetaData} key={post.id} className='flex flex-col gap-3 bg-slate-100 p-5 basis-full lg:basis-[47%] border'>
+          <form onSubmit={updateMetaData} key={post.id} className='flex flex-col gap-3 basis-full lg:basis-[47%] border'>
             <input type="hidden" name='post_id' value={post.id} />
-            <div className='flex flex-wrap items-center gap-3'>
-              <span className='basis-full'>title: </span>
-              <span className='flex-grow'><input name="post_title" defaultValue={post.title} className='w-full p-2' type="text" /></span>
+            <div className='flex flex-wrap items-center gap-3 p-5 border-b bg-slate-100  focus:border-gray-400 focus:bg-white focus:outline-none'>
+              <div className=''>
+                <Image src={post.logo} alt='' width={30} height={30} />
+              </div>
+              <div className='font-semibold'>{post.title}</div>
             </div>
-            <div className='flex flex-wrap items-center gap-3'>
-              <span className="basis-full">Slug: </span>
-              <span className='flex-grow'><input name='post_slug' defaultValue={post.slug} className='w-full p-2' type="text" /></span>
+            <div className='flex flex-wrap items-center gap-3 p-5'>
+              <span className='font-semibold text-gray-700'>Title:</span>
+              <span className='flex-grow'><input className='text-gray-700 w-full p-2 border border-slate-100 rounded  bg-gray-50 focus:border-gray-400 focus:bg-white focus:outline-none' name="post_title" defaultValue={post.title} type="text" /></span>
             </div>
-            <div className='flex flex-wrap items-center gap-3'>
-              <span className="basis-full">Logo name: </span>
-              <span className='flex-grow'><input name='post_logo' defaultValue={post.logo} className='w-full p-2' type="text" /></span>
+            <div className='flex flex-wrap items-center gap-3 p-5'>
+              <span className="font-semibold text-gray-700">Slug: </span>
+              <span className='flex-grow'><input className='text-gray-700 w-full p-2 border border-slate-100 rounded  bg-gray-50 focus:border-gray-400 focus:bg-white focus:outline-none' name='post_slug' defaultValue={post.slug} type="text" /></span>
             </div>
-            {/* <div className='flex flex-wrap items-center gap-3'>
-              <span className="basis-full">Publish: </span>
-              <span className='flex-grow'><input name='post_publish' defaultValue={post.publish} className='w-full p-2' type="text" /></span>
-            </div> */}
-            <div className='flex flex-wrap items-center gap-3'>
-              <span className="basis-full">Intro: </span>
-              <span className='flex-grow'><input name='post_intro' defaultValue={post.intro} className='w-full p-2' type="text" /></span>
+            <div className='flex flex-wrap items-center gap-3 p-5'>
+              <span className="font-semibold text-gray-700">Logo: </span>
+              <span className='flex-grow'><input name='post_logo' defaultValue={post.logo} className='text-gray-700 w-full p-2 rounded bg-gray-50  border border-slate-100 focus:border-gray-400 focus:bg-white focus:outline-none' type="text" /></span>
             </div>
-            <div className='flex gap-5'>
-              <div><button onClick={() => setEdit(+post.id)}>Edit</button></div>
-              <div className=''><button onClick={() => setDelete(+post.id)}>Delete</button></div>
-              <div className=''><button>Update</button></div>
+            <div className='flex flex-wrap items-center gap-3 p-5'>
+              <span className="font-semibold text-gray-700">Intro: </span>
+              <span className='flex-grow'><textarea name='post_intro' spellCheck="false" defaultValue={post.intro} className='text-gray-700 w-full p-2 rounded resize-none border border-slate-100 bg-gray-50 focus:border-gray-400 focus:bg-white focus:outline-none' ></textarea></span>
+            </div>
+            <div className='flex gap-5 p-5'>
+              <div><button className='bg-sky-600  hover:bg-sky-700 border-sky-500 px-5 py-2.5 text-zinc-100 rounded shadow-sm text-sm font-semibold' onClick={() => setEdit(+post.id)}>Edit</button></div>
+              <div><button className='bg-sky-600  hover:bg-sky-700 border-sky-500 px-5 py-2.5 text-zinc-100 rounded shadow-sm text-sm font-semibold' onClick={() => setDelete(+post.id)}>Delete</button></div>
+              <div><button className='bg-sky-600  hover:bg-sky-700 border-sky-500 px-5 py-2.5 text-zinc-100 rounded shadow-sm text-sm font-semibold'>Update</button></div>
             </div>
           </form>
         )

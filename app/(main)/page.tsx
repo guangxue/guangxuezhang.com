@@ -30,7 +30,7 @@ export default async function HomePage() {
   });
   return (
     <div className="HomePage flex flex-col h-screen gap-5">
-      <div className="HomePage_intro flex flex-wrap sm:justify-start justify-center items-center ">
+      <div className="HomePage_intro flex flex-wrap sm:justify-start justify-center items-center">
         <Image
           src={photo}
           alt="photo"
