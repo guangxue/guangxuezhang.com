@@ -23,13 +23,16 @@ const BlogSlugPage = async ({ params }: Params) => {
   if (post) {
     return (
       <article className="sm:max-w-3xl max-w-sm self-center p-8 font-lora">
-        <header className="border-b pb-3 border-slate-700 flex flex-col">
-          <div className="flex gap-5 items-center">
-            <Image alt="logo" src={post.logo} width={50} height={30} />
+        <header className="border-b mb-3 border-slate-700">
+          <div className="">
             <h1 className="m-0">{post.title}</h1>
           </div>
-          <time className="ml-auto">Published <em>{post.publish?.toDateString()}</em></time>
+          <div className="flex items-center gap-5">
+            <Image alt="logo" src={post.logo} width={30} height={20} />
+            <time className="">Published <em>{post.publish?.toDateString()}</em></time>
+          </div>
         </header>
+
         {/*@ts-expect-error Async JSX Component */}
         <MDXRemote source={post.content} />
       </article>
