@@ -4,6 +4,7 @@ import { VimEditor } from "@/lib/VimEditor/VimEditor";
 import { Highlights } from "@/lib/VimEditor/Highlights";
 import { Inconsolata } from "next/font/google";
 import { useSidebarRoutes } from "./RouterProvider";
+import { updatePostContent } from "@/utils/request";
 
 const Incon = Inconsolata({
   subsets: ["latin"],
@@ -13,17 +14,10 @@ const Incon = Inconsolata({
 
 const Editor = () => {
   const [savePost, setSavePost] = React.useState<boolean>(false);
+  const [updateContentOrNot, updateContent] = React.useState<boolean>(false);
   const [trigger, setTrigger] = React.useState(false)
   const editorArea = React.useRef<HTMLTextAreaElement>(null);
   const { sidebarRoute } = useSidebarRoutes();
-
-  React.useEffect(() => {
-    // Edit post content based on the content
-    if (sidebarRoute.content && editorArea.current) {
-      editorArea.current.value = sidebarRoute.content;
-      setTrigger(true);
-    }
-  }, [sidebarRoute, editorArea])
 
   function handleVimKeys(e: React.KeyboardEvent<HTMLTextAreaElement>) {
     const editor = VimEditor(e);
@@ -41,6 +35,26 @@ const Editor = () => {
     Highlights(inputText, outputElement);
   }
 
+  function addFrontMatterHandler() {
+    const fm = "---\ntitle: \nslug: \ntags: \nlogo: \npublish: \nintro: \n---\n";
+    if (editorArea.current) {
+      editorArea.current.value = fm;
+      setTrigger(true)
+    }
+  }
+
+  React.useEffect(() => {
+    // Edit post content based on the content
+    if (sidebarRoute.content && editorArea.current) {
+      editorArea.current.value = sidebarRoute.content;
+      setTrigger(true);
+    }
+  }, [sidebarRoute, editorArea])
+
+  /**
+   *  createPost(data: string)
+   *  updatePostById()
+   */
   React.useEffect(() => {
     const postContent = editorArea.current?.value;
     if (postContent && savePost) {
@@ -73,19 +87,25 @@ const Editor = () => {
     }
   }, [savePost, editorArea, trigger]);
 
-  function addFrontMatterHandler() {
-    const fm = "---\ntitle: \nslug: \ntags: \nlogo: \npublish: \nintro: \n---\n";
-    if (editorArea.current) {
-      editorArea.current.value = fm;
-      setTrigger(true)
+  // Update Post Content
+  React.useEffect(() => {
+    const pid = sidebarRoute.id;
+    if (updateContentOrNot) {
+      const postContent = editorArea.current!.value;
+      console.log("postContent: ", postContent);
+      updatePostContent(pid, postContent).then(res => console.log(res)).catch(err => console.log(err));
     }
-  }
+    return () => { updateContent(false) }
+  }, [updateContentOrNot, editorArea, sidebarRoute])
 
   return (
     <div className="editor-container w-screen flex">
-      <div className="editor-wrapper basis-[80%] lg:basis-[58%] border border-gray-500">
+      <div className="editor-wrapper basis-full lg:basis-[60%] border border-gray-500 overflow-auto h-[78%]">
         <div className="editor-actions border-b border-gray-500 bg-slate-100 p-1 text-gray-600">
-          <button className="px-4 py-2 text-center text-sm font-semibold hover:bg-slate-50 rounded" onClick={() => setSavePost(true)}>Publish</button>
+          {sidebarRoute.content ?
+            <button className="px-4 py-2 text-center text-sm font-semibold hover:bg-slate-50 rounded" onClick={() => updateContent(true)}>Update</button> :
+            <button className="px-4 py-2 text-center text-sm font-semibold hover:bg-slate-50 rounded" onClick={() => setSavePost(true)}>Publish</button>
+          }
           <button className="px-4 py-2 text-center text-sm font-semibold hover:bg-slate-50 rounded">Preview</button>
           <button className="px-4 py-2 text-center text-sm font-semibold hover:bg-slate-50 rounded">Save as draft</button>
           <button className="px-4 py-2 text-center text-sm font-semibold hover:bg-slate-50 rounded" onClick={addFrontMatterHandler}>

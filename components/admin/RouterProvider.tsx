@@ -3,8 +3,8 @@ import React from 'react';
 
 const initState = {
   name: "Dash",
-  content: null,
-  id: null
+  content: "",
+  id: 0
 }
 
 type ActionType = {

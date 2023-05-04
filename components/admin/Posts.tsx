@@ -2,6 +2,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { useSidebarRoutes } from './RouterProvider';
+import { getPostContentById, getPostMetadata, updatePostIntro, updatePostLogo, updatePostSlug, updatePostTitle } from '@/utils/request';
 
 type PostProps = {
   id: string,
@@ -18,58 +19,33 @@ export default function Posts() {
   const [editOrNot, setEdit] = React.useState(0)
   const { routeDispatch } = useSidebarRoutes();
 
-  // fetch blog metadata for the first time rendering
+  /**
+   * fetch blog metadata for the first time rendering
+   */
   React.useEffect(() => {
-    const postData = { name: "getPostMetadata" }
-    fetch("/api/blog/metadata", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(postData),
-    })
-      .then(data => {
-        return data.json();
-      })
+    getPostMetadata()
       .then(blog => {
         setPosts(blog);
       })
+      .catch(err => {
+        console.log(err)
+        setPosts([])
+      })
   }, [])
 
-  // save/delet post & trigger inputEvent
+  /**
+   * save/delete post & trigger inputEvent
+   */
   React.useEffect(() => {
-    const content = "true";
-
     if (deleteOrNot > 0) {
-      const id = deleteOrNot
-      const deldata = { content, id, name: "deletePostById" }
-      fetch("api/blog/delete", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(deldata),
-      }).then(resq => {
-        return resq.json();
-      }).then(res => {
-        console.log("res from delete: ", res)
-      })
+      // deletePostById();
     }
-
     if (editOrNot > 0) {
       const id = editOrNot;
-      const editData = { id, name: "getPostContentById" }
-      fetch("api/blog/metadata", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(editData),
-      }).then(resq => {
-        return resq.json();
-      }).then(res => {
-        const { content } = res;
+      getPostContentById(id).then(content => {
         routeDispatch({ type: "Editor", payload: { content, id } })
+      }).catch(err => {
+        console.log(err)
       })
     }
 
@@ -79,33 +55,34 @@ export default function Posts() {
     }
   }, [deleteOrNot, editOrNot, routeDispatch])
 
+  type InputElement = HTMLInputElement & HTMLTextAreaElement;
+
   async function updateMetaData(evt: React.FormEvent) {
     evt.preventDefault();
     const target = evt.target as HTMLFormElement;
-    const updateInfo = {
-      title: target.post_title.value,
-      slug: target.post_slug.value,
-      logo: target.post_logo.value,
-      intro: target.post_intro.value,
+    console.log(target.elements)
+    const inputName = target.elements.item(1)!.getAttribute("name");
+    console.log(inputName)
+    const input = target.elements.item(1)! as InputElement;
+    const id = target.post_id.value
+
+    switch (inputName) {
+      case "post_title":
+        updatePostTitle(id, input.value).then(res => console.log(res)).catch(err => console.log(err));
+        break;
+      case "post_slug":
+        updatePostSlug(id, input.value).then(res => console.log(res)).catch(err => console.log(err));
+        break;
+      case "post_logo":
+        updatePostLogo(id, input.value).then(res => console.log(res)).catch(err => console.log(err));
+        break;
+      case "post_intro":
+        updatePostIntro(id, input.value).then(res => console.log(res)).catch(err => console.log(err));
+        break;
+      default:
+        break;
     }
-    const id = target.post_id.value;
-    const postData = { name: "updateMetadata", updates: updateInfo, id }
-    fetch("/api/blog/metadata", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(postData),
-    })
-      .then(data => {
-        return data.json();
-      })
-      .then(updatedRes => {
-        console.log("updatedRes:", updatedRes);
-      })
   };
-
-
 
   return (
     <div className='flex gap-6 flex-wrap flex-grow justify-center items-center p-6 overflow-auto'>
@@ -114,36 +91,43 @@ export default function Posts() {
       </div>
       {posts.map((post: PostProps) => {
         return (
-          <form onSubmit={updateMetaData} key={post.id} className='flex flex-col gap-3 basis-full lg:basis-[47%] border'>
-            <input type="hidden" name='post_id' value={post.id} />
+          <div key={post.id} className='flex flex-col basis-full lg:basis-[47%] border'>
             <div className='flex flex-wrap items-center gap-3 p-5 border-b bg-slate-100  focus:border-gray-400 focus:bg-white focus:outline-none'>
               <div className=''>
                 <Image src={post.logo} alt='' width={30} height={30} />
               </div>
               <div className='font-semibold'>{post.title}</div>
             </div>
-            <div className='flex flex-wrap items-center gap-3 p-5'>
-              <span className='font-semibold text-gray-700'>Title:</span>
-              <span className='flex-grow'><input className='text-gray-700 w-full p-2 border border-slate-100 rounded  bg-gray-50 focus:border-gray-400 focus:bg-white focus:outline-none' name="post_title" defaultValue={post.title} type="text" /></span>
-            </div>
-            <div className='flex flex-wrap items-center gap-3 p-5'>
-              <span className="font-semibold text-gray-700">Slug: </span>
-              <span className='flex-grow'><input className='text-gray-700 w-full p-2 border border-slate-100 rounded  bg-gray-50 focus:border-gray-400 focus:bg-white focus:outline-none' name='post_slug' defaultValue={post.slug} type="text" /></span>
-            </div>
-            <div className='flex flex-wrap items-center gap-3 p-5'>
-              <span className="font-semibold text-gray-700">Logo: </span>
-              <span className='flex-grow'><input name='post_logo' defaultValue={post.logo} className='text-gray-700 w-full p-2 rounded bg-gray-50  border border-slate-100 focus:border-gray-400 focus:bg-white focus:outline-none' type="text" /></span>
-            </div>
-            <div className='flex flex-wrap items-center gap-3 p-5'>
-              <span className="font-semibold text-gray-700">Intro: </span>
-              <span className='flex-grow'><textarea name='post_intro' spellCheck="false" defaultValue={post.intro} className='text-gray-700 w-full p-2 rounded resize-none border border-slate-100 bg-gray-50 focus:border-gray-400 focus:bg-white focus:outline-none' ></textarea></span>
-            </div>
+            <form onSubmit={updateMetaData} className='flex flex-wrap items-center gap-3 p-5'>
+              <input type="hidden" name='post_id' value={post.id} />
+              <div className='font-semibold text-gray-700'>Title:</div>
+              <div className='flex-grow'><input className='text-gray-700 w-full p-2 border border-slate-100 rounded  bg-gray-50 focus:border-gray-400 focus:bg-white focus:outline-none' name="post_title" defaultValue={post.title} type="text" /></div>
+              <div><button className=' bg-slate-100 hover:bg-slate-200 text-gray-700 px-5 py-2.5  rounded shadow-sm text-sm font-semibold'>update</button></div>
+            </form>
+            <form onSubmit={updateMetaData} className='flex flex-wrap items-center gap-3 p-5'>
+              <input type="hidden" name='post_id' value={post.id} />
+              <div className="font-semibold text-gray-700">Slug: </div>
+              <div className='flex-grow'><input className='text-gray-700 w-full p-2 border border-slate-100 rounded  bg-gray-50 focus:border-gray-400 focus:bg-white focus:outline-none' name='post_slug' defaultValue={post.slug} type="text" /></div>
+              <div><button className='bg-slate-100 hover:bg-slate-200 text-gray-700 px-5 py-2.5 rounded shadow-sm text-sm font-semibold'>update</button></div>
+            </form>
+            <form onSubmit={updateMetaData} className='flex flex-wrap items-center gap-3 p-5'>
+              <input type="hidden" name='post_id' value={post.id} />
+              <div className="font-semibold text-gray-700">Logo: </div>
+              <div className='flex-grow'><input name='post_logo' defaultValue={post.logo} className='text-gray-700 w-full p-2 rounded bg-gray-50  border border-slate-100 focus:border-gray-400 focus:bg-white focus:outline-none' type="text" /></div>
+              <div><button className='bg-slate-100 hover:bg-slate-200 text-gray-700 px-5 py-2.5 rounded shadow-sm text-sm font-semibold'>update</button></div>
+            </form>
+            <form onSubmit={updateMetaData} className='flex flex-wrap items-center gap-3 p-5'>
+              <input type="hidden" name='post_id' value={post.id} />
+              <div className="font-semibold text-gray-700">Intro: </div>
+              <div className='flex-grow'><textarea name='post_intro' spellCheck="false" defaultValue={post.intro} className='text-gray-700 w-full p-2 rounded resize-none border border-slate-100 bg-gray-50 focus:border-gray-400 focus:bg-white focus:outline-none' ></textarea></div>
+              <div><button className='bg-slate-100 hover:bg-slate-200 text-gray-700 px-5 py-2.5 rounded shadow-sm text-sm font-semibold'>update</button></div>
+            </form>
             <div className='flex gap-5 p-5'>
-              <div><button className='bg-sky-600  hover:bg-sky-700 border-sky-500 px-5 py-2.5 text-zinc-100 rounded shadow-sm text-sm font-semibold' onClick={() => setEdit(+post.id)}>Edit</button></div>
-              <div><button className='bg-sky-600  hover:bg-sky-700 border-sky-500 px-5 py-2.5 text-zinc-100 rounded shadow-sm text-sm font-semibold' onClick={() => setDelete(+post.id)}>Delete</button></div>
-              <div><button className='bg-sky-600  hover:bg-sky-700 border-sky-500 px-5 py-2.5 text-zinc-100 rounded shadow-sm text-sm font-semibold'>Update</button></div>
+              <div><button className='bg-sky-600  hover:bg-sky-700 border-sky-500 px-5 py-2.5 text-zinc-100 rounded shadow-sm text-sm font-semibold' onClick={(e) => { e.preventDefault(); setEdit(+post.id) }}>Edit</button></div>
+              <div><button className='bg-sky-600  hover:bg-sky-700 border-sky-500 px-5 py-2.5 text-zinc-100 rounded shadow-sm text-sm font-semibold' onClick={(e) => { e.preventDefault(); setDelete(+post.id) }}>Delete</button></div>
+              {/* <div><button className='bg-sky-600  hover:bg-sky-700 border-sky-500 px-5 py-2.5 text-zinc-100 rounded shadow-sm text-sm font-semibold'>Update All</button></div> */}
             </div>
-          </form>
+          </div>
         )
       })}
     </div>
