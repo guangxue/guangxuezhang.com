@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const MainHeader = () => {
   return (
-    <header className="MainHeader sticky top-0 border border-b-neutral-100 bg-white">
+    <header className="MainHeader sticky top-0 border border-b-neutral-200 bg-white">
       <nav>
         <ul className="flex list-none sm:space-x-16 space-x-8">
           <li className="zoom flex justify-center items-center sm:space-x-2 space-x-1 object-contain">

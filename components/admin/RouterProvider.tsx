@@ -2,13 +2,13 @@
 import React from 'react';
 
 const initState = {
-  name: "Dash",
+  name: "Main",
   content: "",
   id: 0
 }
 
 type ActionType = {
-  type: "Main" | "Home" | "Editor" | "Posts" | "Comments" | "Users",
+  type: "Main" | "Home" | "Editor" | "Posts" | "Comments" | "Users" | "Uploads",
   payload: any;
 }
 
@@ -24,6 +24,8 @@ function reducer(state: typeof initState, action: ActionType) {
       return { name: "Comments", ...action.payload }
     case "Users":
       return { name: "Users", ...action.payload }
+    case "Uploads":
+      return { name: "Uploads", ...action.payload }
     default:
       throw new Error("<Err:Actions NotFound>");
   }

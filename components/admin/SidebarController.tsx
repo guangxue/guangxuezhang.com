@@ -7,6 +7,7 @@ import Comments from './Comments';
 import Users from './Users';
 import Dashboard from './Dashboard';
 import { useRouter } from 'next/navigation';
+import ImageUploads from './ImageUploads';
 
 export default function SidebarController() {
   const { sidebarRoute } = useSidebarRoutes();
@@ -31,6 +32,9 @@ export default function SidebarController() {
   }
   if (routeName === 'Users') {
     return <Users />
+  }
+  if (routeName === 'Uploads') {
+    return <ImageUploads />
   }
   return (
     <Dashboard />

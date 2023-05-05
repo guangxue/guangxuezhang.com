@@ -100,7 +100,7 @@ const Editor = () => {
 
   return (
     <div className="editor-container w-screen flex">
-      <div className="editor-wrapper basis-full lg:basis-[60%] border border-gray-500 overflow-auto h-[78%]">
+      <div className="editor-wrapper basis-full lg:basis-[60%] border border-gray-500 overflow-auto h-[78%] shadow-lg">
         <div className="editor-actions border-b border-gray-500 bg-slate-100 p-1 text-gray-600">
           {sidebarRoute.content ?
             <button className="px-4 py-2 text-center text-sm font-semibold hover:bg-slate-50 rounded" onClick={() => updateContent(true)}>Update</button> :

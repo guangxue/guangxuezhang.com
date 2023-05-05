@@ -139,4 +139,21 @@ export function updatePostContent(id: number, newContent: string) {
     });
 }
 
+export function uploadFile(name: string, file: string) {
+  const imageData = { name, file };
+  return fetch("/api/blog/uploads", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(imageData),
+  })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err;
+    });
+}
+
 export function updateMetadata() {}

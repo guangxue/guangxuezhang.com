@@ -6,6 +6,7 @@ import {
   AiOutlineComment,
   AiOutlineTeam,
   AiFillHome,
+  AiOutlineCloudUpload,
 } from "react-icons/ai";
 import React from "react";
 
@@ -17,6 +18,7 @@ const Sidebar = () => {
     { name: AiOutlineDashboard, onClick: () => { routeDispatch({ type: "Editor", payload: {} }) }, label: "Editor" },
     { name: AiOutlineFileText, onClick: () => { routeDispatch({ type: "Posts", payload: {} }) }, label: "Posts" },
     { name: AiOutlineComment, onClick: () => { routeDispatch({ type: "Comments", payload: {} }) }, label: "Comments" },
+    { name: AiOutlineCloudUpload, onClick: () => { routeDispatch({ type: "Uploads", payload: {} }) }, label: "Uploads" },
     { name: AiOutlineTeam, onClick: () => { routeDispatch({ type: "Users", payload: {} }) }, label: "Users" },
   ];
 
