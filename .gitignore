@@ -45,3 +45,6 @@ prisma/seed.ts
 
 # Posts
 posts
+
+# public
+/public

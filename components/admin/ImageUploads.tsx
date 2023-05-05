@@ -40,7 +40,7 @@ export default function ImageUploads() {
        *   headers: Headers, 
        * }
        */
-      console.log("<request.ts><res>", res.ok);
+      console.log("<request.ts><res>", res);
     }).catch(err => {
       console.log("<request.ts><Erro>", err);
     })
