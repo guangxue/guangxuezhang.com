@@ -9,9 +9,21 @@ export async function POST(req: NextRequest) {
   const destPath = `/public/${fileInfo.name}`;
   const savePath = path.join(rootPath, destPath);
 
-  const imageStr = fileInfo.file.substring("data:image/jpeg;base64".length);
-  const base64Buf = Buffer.from(imageStr, "base64");
-
+  const imgReg = /data\:image\/(jpeg|png|svg\+xml)\;base64/;
+  const imgInfo = fileInfo.file.match(imgReg);
+  if (imgInfo === null) {
+    return NextResponse.json("<matches Failed> Image Not acceptable", {
+      status: 500,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+      },
+    });
+  }
+  console.log("<Accepted Image>:", imgInfo[0]);
+  const imgStr = fileInfo.file.substring(imgInfo[0].length);
+  const base64Buf = Buffer.from(imgStr, "base64");
   try {
     await writeFile(savePath, base64Buf, {
       flag: "wx+",
