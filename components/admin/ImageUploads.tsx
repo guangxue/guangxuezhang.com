@@ -4,7 +4,7 @@ import React from 'react'
 
 export default function ImageUploads() {
   const [file, setFile] = React.useState<File>();
-  const [base64, setBase64] = React.useState<string>()
+  const [dataUrl, setDataUrl] = React.useState<string>()
 
   function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) {
@@ -16,7 +16,7 @@ export default function ImageUploads() {
     fileReader.readAsDataURL(file);
     fileReader.onload = () => {
       const fileDataStr = fileReader.result as string;
-      setBase64(fileDataStr);
+      setDataUrl(fileDataStr);
     }
     fileReader.onerror = (error) => {
       return error;
@@ -28,18 +28,17 @@ export default function ImageUploads() {
     if (!file) {
       return
     }
-    uploadFile(file.name, base64 as string).then(res => {
-      /**
-       * return Response Object {
-       *   type: "basic",
-       *   url: "",
-       *   redirect: false,
-       *   status: 200,
-       *   ok: true,
-       *   statusText: "OK",
-       *   headers: Headers, 
-       * }
-       */
+    /**
+     * returned Response Object{
+     *   type: "basic",
+     *   url: "",
+     *   redirect: false,
+     *   status: 200,
+     *   ok: true,
+     *   statusText: "OK",
+     *   headers: Headers }
+     */
+    uploadFile(file.name, dataUrl as string).then(res => {
       console.log("<request.ts><res>", res);
     }).catch(err => {
       console.log("<request.ts><Erro>", err);
@@ -48,7 +47,7 @@ export default function ImageUploads() {
 
   return (
     <div className='ImageUploads basis-full flex flex-col gap-5'>
-      <form onSubmit={handleSubmit} method='post' encType='multipart/form-data' className="flex flex-col border border-neutral-100 shadow-lg p-9 w-full gap-5">
+      <form onSubmit={handleSubmit} method='post' encType='multipart/form-data' className="flex flex-col p-10 w-full gap-5">
         <div>
           <input type="file" accept='image/*' onChange={onFileChange} />
         </div>
@@ -56,9 +55,21 @@ export default function ImageUploads() {
           <input type='submit' className='bg-sky-600  hover:bg-sky-700 px-4 py-2 text-zinc-100 rounded shadow-sm text-sm' value='Uploads' />
         </div>
       </form>
-      {base64 && (
-        <div className="border">
-          <Image src={base64} width={30} height={30} alt='upload image' style={{ width: '80%', height: 'auto' }} />
+      {dataUrl && (
+        <div className="flex gap-6 items-center p-6 border-t border-x-neutral-100">
+          <div>
+            <Image src={dataUrl} width={30} height={30} alt='upload image' style={{ width: '100px', height: '100px' }} />
+          </div>
+          <div>
+            {file && (
+              <ul>
+                <li><span className='font-semibold'>Name: </span>{file.name}</li>
+                <li><span className='font-semibold'>Type: </span>{file.type}</li>
+                <li><span className='font-semibold'>Size: </span>{file.size} <span className="italic">bytes</span></li>
+                <li><span className='font-semibold'>LastModified: </span>{file.lastModified}</li>
+              </ul>
+            )}
+          </div>
         </div>
       )}
     </div>

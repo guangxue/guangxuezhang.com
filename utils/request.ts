@@ -1,159 +1,137 @@
-export function getPostMetadata() {
+export async function getPostMetadata() {
   const postData = { name: "getPostMetadata" };
-  return fetch("/api/blog/metadata", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(postData),
-  })
-    .then((data) => {
-      return data.json();
-    })
-    .then((blog) => {
-      return Promise.resolve(blog);
-    })
-    .catch((err) => {
-      return Promise.reject(err);
+  try {
+    const data = await fetch("/api/blog/metadata", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(postData),
     });
+    const blog = await data.json();
+    return await Promise.resolve(blog);
+  } catch (err) {
+    return await Promise.reject(err);
+  }
 }
 
-export function getPostContentById(id: number) {
+export async function getPostContentById(id: number) {
   const editData = { name: "getPostContentById", id };
-  return fetch("api/blog/metadata", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(editData),
-  })
-    .then((resq) => {
-      return resq.json();
-    })
-    .then((res) => {
-      const { content } = res;
-      return Promise.resolve(content);
-    })
-    .catch((err) => {
-      return Promise.reject(err);
+  try {
+    const resq = await fetch("api/blog/metadata", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(editData),
     });
+    const res = await resq.json();
+    const { content } = res;
+    return await Promise.resolve(content);
+  } catch (err) {
+    return await Promise.reject(err);
+  }
 }
 
-export function updatePostTitle(id: number, newTitle: string) {
+export async function updatePostTitle(id: number, newTitle: string) {
   const updateDate = { name: "updatePostTitle", id, newTitle };
-  return fetch("/api/blog/metadata", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(updateDate),
-  })
-    .then((data) => {
-      return data.json();
-    })
-    .then((updated) => {
-      return Promise.resolve(updated);
-    })
-    .catch((err) => {
-      return Promise.reject(err);
+  try {
+    const data = await fetch("/api/blog/metadata", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updateDate),
     });
+    const updated = await data.json();
+    return await Promise.resolve(updated);
+  } catch (err) {
+    return await Promise.reject(err);
+  }
 }
 
-export function updatePostSlug(id: number, newSlug: string) {
+export async function updatePostSlug(id: number, newSlug: string) {
   const updateDate = { name: "updatePostSlug", id, newSlug };
-  return fetch("/api/blog/metadata", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(updateDate),
-  })
-    .then((data) => {
-      return data.json();
-    })
-    .then((updated) => {
-      return Promise.resolve(updated);
-    })
-    .catch((err) => {
-      return Promise.reject(err);
+  try {
+    const data = await fetch("/api/blog/metadata", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updateDate),
     });
+    const updated = await data.json();
+    return await Promise.resolve(updated);
+  } catch (err) {
+    return await Promise.reject(err);
+  }
 }
 
-export function updatePostLogo(id: number, newLogo: string) {
+export async function updatePostLogo(id: number, newLogo: string) {
   const updateDate = { name: "updatePostLogo", id, newLogo };
-  return fetch("/api/blog/metadata", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(updateDate),
-  })
-    .then((data) => {
-      return data.json();
-    })
-    .then((updated) => {
-      return Promise.resolve(updated);
-    })
-    .catch((err) => {
-      return Promise.reject(err);
+  try {
+    const data = await fetch("/api/blog/metadata", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updateDate),
     });
+    const updated = await data.json();
+    return await Promise.resolve(updated);
+  } catch (err) {
+    return await Promise.reject(err);
+  }
 }
 
-export function updatePostIntro(id: number, newIntro: string) {
+export async function updatePostIntro(id: number, newIntro: string) {
   const updateData = { name: "updatePostIntro", id, newIntro };
-  return fetch("/api/blog/metadata", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(updateData),
-  })
-    .then((data) => {
-      return data.json();
-    })
-    .then((updated) => {
-      return Promise.resolve(updated);
-    })
-    .catch((err) => {
-      return Promise.reject(err);
+  try {
+    const data = await fetch("/api/blog/metadata", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updateData),
     });
+    const updated = await data.json();
+    return await Promise.resolve(updated);
+  } catch (err) {
+    return await Promise.reject(err);
+  }
 }
 
-export function updatePostContent(id: number, newContent: string) {
+export async function updatePostContent(id: number, newContent: string) {
   const updateData = { name: "updatePostContent", id, newContent };
-  return fetch("/api/blog/metadata", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(updateData),
-  })
-    .then((data) => {
-      return data.json();
-    })
-    .then((updated) => {
-      return Promise.resolve(updated);
-    })
-    .catch((err) => {
-      return Promise.reject(err);
+  try {
+    const data = await fetch("/api/blog/metadata", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updateData),
     });
+    const updated = await data.json();
+    return await Promise.resolve(updated);
+  } catch (err) {
+    return await Promise.reject(err);
+  }
 }
 
-export function uploadFile(name: string, file: string) {
-  const imageData = { name, file };
-  return fetch("/api/blog/uploads", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(imageData),
-  })
-    .then((res) => {
-      return res;
-    })
-    .catch((err) => {
-      return err;
+export async function uploadFile(name: string, dataUrl: string) {
+  const imageData = { name, dataUrl };
+  try {
+    const res = await fetch("/api/blog/uploads", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(imageData),
     });
+    return res;
+  } catch (err) {
+    return err;
+  }
 }
 
 export function updateMetadata() {}
