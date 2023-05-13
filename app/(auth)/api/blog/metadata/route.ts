@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/globals/db";
+import { Success, ServerError } from "@/utils/responses";
 
 export async function POST(req: NextRequest) {
   const action = await req.json();
@@ -18,23 +19,9 @@ export async function POST(req: NextRequest) {
           },
         });
         const blogMetaJSON = JSON.stringify(blogMetadata);
-        return new Response(blogMetaJSON, {
-          status: 200,
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-            "Access-Control-Allow-Headers": "Content-Type, Authorization",
-          },
-        });
+        return Success(blogMetaJSON);
       } catch (error) {
-        return NextResponse.json(error, {
-          status: 500,
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-            "Access-Control-Allow-Headers": "Content-Type, Authorization",
-          },
-        });
+        return ServerError(error);
       }
     case "getPostContentById":
       try {
@@ -229,6 +216,40 @@ export async function POST(req: NextRequest) {
             "Access-Control-Allow-Headers": "Content-Type, Authorization",
           },
         });
+      }
+    case "getImageSrcByName":
+      try {
+        const dataUrl = (
+          await prisma.image.findFirst({
+            where: {
+              name: action.logoname,
+            },
+            select: {
+              data_url: true,
+            },
+          })
+        )?.data_url;
+
+        return Success(dataUrl);
+      } catch (err) {
+        return ServerError(err);
+      }
+    case "getImageDataUrls":
+      try {
+        const images = await prisma.image.findMany({
+          where: {
+            id: {
+              gte: 1,
+            },
+          },
+          select: {
+            name: true,
+            data_url: true,
+          },
+        });
+        return Success(JSON.stringify(images));
+      } catch (error) {
+        return ServerError(error);
       }
     default:
       return NextResponse.json("<NO ACTIONS FOUND>", {

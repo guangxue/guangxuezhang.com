@@ -118,20 +118,37 @@ export async function updatePostContent(id: number, newContent: string) {
   }
 }
 
-export async function uploadFile(name: string, dataUrl: string) {
-  const imageData = { name, dataUrl };
+export async function uploadFile(filename: string, dataUrl: string) {
+  const imageData = { filename, dataUrl };
+  return fetch("/api/blog/uploads", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(imageData),
+  })
+    .then((resOk) => {
+      return Promise.resolve(resOk);
+    })
+    .catch((err) => {
+      return Promise.reject(err);
+    });
+}
+
+export async function getImageDataUrls() {
+  const imageData = { name: "getImageDataUrls" };
   try {
-    const res = await fetch("/api/blog/uploads", {
+    const data = await fetch("/api/blog/metadata", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(imageData),
     });
-    return res;
+    const dataUrls = await data.json();
+    return await Promise.resolve(dataUrls);
   } catch (err) {
-    return err;
+    return await Promise.reject(err);
   }
 }
-
 export function updateMetadata() {}

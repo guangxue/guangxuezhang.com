@@ -1,10 +1,11 @@
+"use client";
 import { uploadFile } from '@/utils/request';
 import Image from 'next/image';
-import React from 'react'
+import React from 'react';
 
 export default function ImageUploads() {
   const [file, setFile] = React.useState<File>();
-  const [dataUrl, setDataUrl] = React.useState<string>()
+  const [dataUrl, setDataUrl] = React.useState<string>();
 
   function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) {
@@ -28,21 +29,7 @@ export default function ImageUploads() {
     if (!file) {
       return
     }
-    /**
-     * returned Response Object{
-     *   type: "basic",
-     *   url: "",
-     *   redirect: false,
-     *   status: 200,
-     *   ok: true,
-     *   statusText: "OK",
-     *   headers: Headers }
-     */
-    uploadFile(file.name, dataUrl as string).then(res => {
-      console.log("<request.ts><res>", res);
-    }).catch(err => {
-      console.log("<request.ts><Erro>", err);
-    })
+    return uploadFile(file.name, dataUrl as string)
   }
 
   return (
@@ -62,12 +49,17 @@ export default function ImageUploads() {
           </div>
           <div>
             {file && (
-              <ul>
-                <li><span className='font-semibold'>Name: </span>{file.name}</li>
-                <li><span className='font-semibold'>Type: </span>{file.type}</li>
-                <li><span className='font-semibold'>Size: </span>{file.size} <span className="italic">bytes</span></li>
-                <li><span className='font-semibold'>LastModified: </span>{file.lastModified}</li>
-              </ul>
+              <div>
+                <ul>
+                  <li><span className='font-semibold'>Name: </span>{file.name}</li>
+                  <li><span className='font-semibold'>Type: </span>{file.type}</li>
+                  <li><span className='font-semibold'>Size: </span>{file.size / 1000} <span className="italic">Kbs</span></li>
+                  <li><span className='font-semibold'>LastModified: </span>{file.lastModified}</li>
+                </ul>
+                <div>
+                  {/* <button onClick={imageOptimize} className='bg-sky-600  hover:bg-sky-700 px-4 py-2 text-zinc-100 rounded shadow-sm text-sm'>Optimize</button> */}
+                </div>
+              </div>
             )}
           </div>
         </div>

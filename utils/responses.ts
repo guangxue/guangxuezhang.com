@@ -1,3 +1,5 @@
+import { NextRequest, NextResponse } from "next/server";
+
 export function Success(msg: any) {
   return new Response(msg, {
     status: 200,
@@ -9,7 +11,7 @@ export function Success(msg: any) {
   });
 }
 
-export function ServerError(errMsg: any) {
+export function ServerError(errMsg: string) {
   return new Response(errMsg, {
     status: 500,
     headers: {

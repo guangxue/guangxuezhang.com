@@ -28,6 +28,7 @@ export default async function HomePage() {
       slug: true,
     },
   });
+
   return (
     <div className="HomePage flex flex-col h-screen gap-5">
       <div className="HomePage_intro flex flex-wrap sm:justify-start justify-center items-center">
@@ -82,6 +83,7 @@ export default async function HomePage() {
       </div>
       <div className="HomePage_posts flex flex-wrap m-6 font-lora gap-5">
         {latestPosts.map(post => {
+          {/*@ts-expect-error Async JSX Component */ }
           return <LatestPost post={post} key={post.id} />
         })}
       </div>

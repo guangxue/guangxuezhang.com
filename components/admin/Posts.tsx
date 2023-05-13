@@ -2,7 +2,15 @@
 import React from 'react';
 import Image from 'next/image';
 import { useSidebarRoutes } from './RouterProvider';
-import { getPostContentById, getPostMetadata, updatePostIntro, updatePostLogo, updatePostSlug, updatePostTitle } from '@/utils/request';
+import {
+  getImageDataUrls,
+  getPostContentById,
+  getPostMetadata,
+  updatePostIntro,
+  updatePostLogo,
+  updatePostSlug,
+  updatePostTitle
+} from '@/utils/request';
 
 type PostProps = {
   id: string,
@@ -15,6 +23,7 @@ type PostProps = {
 
 export default function Posts() {
   const [posts, setPosts] = React.useState([])
+  const [images, setImages] = React.useState(new Map())
   const [deleteOrNot, setDelete] = React.useState(0)
   const [editOrNot, setEdit] = React.useState(0)
   const { routeDispatch } = useSidebarRoutes();
@@ -60,9 +69,7 @@ export default function Posts() {
   async function updateMetaData(evt: React.FormEvent) {
     evt.preventDefault();
     const target = evt.target as HTMLFormElement;
-    console.log(target.elements)
     const inputName = target.elements.item(1)!.getAttribute("name");
-    console.log(inputName)
     const input = target.elements.item(1)! as InputElement;
     const id = target.post_id.value
 
@@ -89,12 +96,12 @@ export default function Posts() {
       <div className='basis-full'>
         <h1>Update Post Metadata</h1>
       </div>
-      {posts.map((post: PostProps) => {
+      {images && posts.map((post: PostProps) => {
         return (
           <div key={post.id} className='flex flex-col basis-full lg:basis-[47%] border'>
             <div className='flex flex-wrap items-center gap-3 p-5 border-b bg-slate-100  focus:border-gray-400 focus:bg-white focus:outline-none'>
               <div className=''>
-                <Image src={post.logo} alt='' width={30} height={30} />
+                <Image src={''} alt={''} width={30} height={30} />
               </div>
               <div className='font-semibold'>{post.title}</div>
             </div>
