@@ -3,13 +3,13 @@ import React from 'react';
 import Image from 'next/image';
 import { useSidebarRoutes } from './RouterProvider';
 import {
-  getImageDataUrls,
   getPostContentById,
   getPostMetadata,
   updatePostIntro,
   updatePostLogo,
   updatePostSlug,
-  updatePostTitle
+  updatePostTitle,
+  remoteImagePath,
 } from '@/utils/request';
 
 type PostProps = {
@@ -23,7 +23,6 @@ type PostProps = {
 
 export default function Posts() {
   const [posts, setPosts] = React.useState([])
-  const [images, setImages] = React.useState(new Map())
   const [deleteOrNot, setDelete] = React.useState(0)
   const [editOrNot, setEdit] = React.useState(0)
   const { routeDispatch } = useSidebarRoutes();
@@ -90,18 +89,17 @@ export default function Posts() {
         break;
     }
   };
-
   return (
     <div className='flex gap-6 flex-wrap flex-grow justify-center items-center p-6 overflow-auto'>
       <div className='basis-full'>
         <h1>Update Post Metadata</h1>
       </div>
-      {images && posts.map((post: PostProps) => {
+      {posts.map((post: PostProps) => {
         return (
           <div key={post.id} className='flex flex-col basis-full lg:basis-[47%] border'>
             <div className='flex flex-wrap items-center gap-3 p-5 border-b bg-slate-100  focus:border-gray-400 focus:bg-white focus:outline-none'>
               <div className=''>
-                <Image src={''} alt={''} width={30} height={30} />
+                <Image src={`${remoteImagePath}${post.logo}`} alt={''} width={30} height={30} />
               </div>
               <div className='font-semibold'>{post.title}</div>
             </div>

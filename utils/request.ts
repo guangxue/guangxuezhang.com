@@ -1,3 +1,5 @@
+export const remoteImagePath='https://beta.guangxuezhang.com/images/main/';
+
 export async function getPostMetadata() {
   const postData = { name: "getPostMetadata" };
   try {
@@ -151,4 +153,4 @@ export async function getImageDataUrls() {
     return await Promise.reject(err);
   }
 }
-export function updateMetadata() {}
+ 

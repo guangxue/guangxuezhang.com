@@ -4,6 +4,7 @@ import { Success, ServerError } from "@/utils/responses";
 
 export async function POST(req: NextRequest) {
   const action = await req.json();
+  const logoLocPrefix = "https://beta.guangxuezhang.com/images/main/";
   switch (action.name) {
     case "getPostMetadata":
       try {
@@ -21,7 +22,7 @@ export async function POST(req: NextRequest) {
         const blogMetaJSON = JSON.stringify(blogMetadata);
         return Success(blogMetaJSON);
       } catch (error) {
-        return ServerError(error);
+        return ServerError("get post metadata failed");
       }
     case "getPostContentById":
       try {
@@ -59,7 +60,7 @@ export async function POST(req: NextRequest) {
           data: {
             title: action.updates.title,
             slug: action.updates.slug,
-            logo: action.updates.logo,
+            logo: `${logoLocPrefix}${action.updates.logo}`,
             intro: action.updates.intro,
           },
         });
@@ -142,7 +143,7 @@ export async function POST(req: NextRequest) {
         const updated = await prisma.post.update({
           where: { id: logoId },
           data: {
-            logo: action.newLogo,
+            logo: `${logoLocPrefix}${action.newLogo}`,
           },
         });
         return new Response(JSON.stringify({ updated: updated }), {
@@ -232,7 +233,7 @@ export async function POST(req: NextRequest) {
 
         return Success(dataUrl);
       } catch (err) {
-        return ServerError(err);
+        return ServerError("getImageSrcByName err");
       }
     case "getImageDataUrls":
       try {
@@ -249,7 +250,7 @@ export async function POST(req: NextRequest) {
         });
         return Success(JSON.stringify(images));
       } catch (error) {
-        return ServerError(error);
+        return ServerError("getImageDataUrls err");
       }
     default:
       return NextResponse.json("<NO ACTIONS FOUND>", {

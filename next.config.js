@@ -5,6 +5,16 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'beta.guangxuezhang.com',
+        port: '',
+        pathname: '/images/main/**',
+      },
+    ],
+  },
 };
 
 // module.exports = withContentlayer(nextConfig);

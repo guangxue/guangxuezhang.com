@@ -17,6 +17,7 @@ async function createFile(filename: string, content: string) {
 // Handling POST request
 export async function POST(req: NextRequest) {
   const postData = await req.json();
+  const logoLocPrefix = "https://beta.guangxuezhang.com/images/main/";
   if (!postData) {
     return NextResponse.json({ error: "No Data Posted" });
   }
@@ -27,7 +28,7 @@ export async function POST(req: NextRequest) {
         title: metadata.data.title,
         intro: metadata.data.intro,
         tags: metadata.data.tags,
-        logo: metadata.data.logo,
+        logo: `${logoLocPrefix}${metadata.data.logo}`,
         slug: metadata.data.slug,
         publish: metadata.data.publish,
         content: metadata.content,

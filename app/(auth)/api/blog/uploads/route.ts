@@ -37,7 +37,7 @@ async function getBase64Image(fileInfo: fileInfoProps) {
 
 function getWebRootPath(fileInfo: fileInfoProps) {
   const rootPath = path.resolve("../");
-  const destPath = `/beta.guangxuezhang.com/public/images/${fileInfo.filename}`;
+  const destPath = `/beta.guangxuezhang.com/public/images/main/${fileInfo.filename}`;
   return path.join(rootPath, destPath);
 }
 
