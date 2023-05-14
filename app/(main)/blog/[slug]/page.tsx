@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/globals/db";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Image from "next/image";
+import { remoteImagePath } from "@/utils/request";
 
 interface Params {
   params: {
@@ -28,7 +29,7 @@ const BlogSlugPage = async ({ params }: Params) => {
             <h1 className="m-0">{post.title}</h1>
           </div>
           <div className="flex items-center gap-5">
-            <Image alt="logo" src={post.logo} width={30} height={20} />
+            <Image alt="logo" src={`${remoteImagePath}${post.logo}`} width={30} height={20} />
             <time className="">Published <em>{post.publish?.toDateString()}</em></time>
           </div>
         </header>

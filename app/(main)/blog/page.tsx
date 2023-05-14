@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/globals/db";
 import BlogPreviews from "@/components/BlogPreviews";
+import { remoteImagePath } from "@/utils/request";
 
 export const revalidate = 6;
 
@@ -28,7 +29,7 @@ const BlogPage = async () => {
               publish={blog.publish}
               intro={blog.intro}
               slug={blog.slug}
-              logo={blog.logo}
+              logo={`${remoteImagePath}${blog.logo}`}
             />
           ))}
         </div>
