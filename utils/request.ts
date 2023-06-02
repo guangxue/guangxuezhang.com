@@ -1,4 +1,4 @@
-export const remoteImagePath='https://beta.guangxuezhang.com/images/main/';
+export const remoteImagePath = "https://assets.guangxuezhang.com/images/main/";
 
 export async function getPostMetadata() {
   const postData = { name: "getPostMetadata" };
@@ -20,7 +20,7 @@ export async function getPostMetadata() {
 export async function getPostContentById(id: number) {
   const editData = { name: "getPostContentById", id };
   try {
-    const resq = await fetch("api/blog/metadata", {
+    const resq = await fetch("/api/blog/metadata", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -120,6 +120,23 @@ export async function updatePostContent(id: number, newContent: string) {
   }
 }
 
+export async function getImageDataUrls() {
+  const imageData = { name: "getImageDataUrls" };
+  try {
+    const data = await fetch("/api/blog/metadata", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(imageData),
+    });
+    const dataUrls = await data.json();
+    return await Promise.resolve(dataUrls);
+  } catch (err) {
+    return await Promise.reject(err);
+  }
+}
+
 export async function uploadFile(filename: string, dataUrl: string) {
   const imageData = { filename, dataUrl };
   return fetch("/api/blog/uploads", {
@@ -137,20 +154,19 @@ export async function uploadFile(filename: string, dataUrl: string) {
     });
 }
 
-export async function getImageDataUrls() {
-  const imageData = { name: "getImageDataUrls" };
-  try {
-    const data = await fetch("/api/blog/metadata", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(imageData),
+export async function getImageList() {
+  const imageAction = { name: "getImageList" };
+  return fetch("/api/blog/image/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(imageAction),
+  })
+    .then((res) => {
+      return Promise.resolve(res);
+    })
+    .catch((err) => {
+      return Promise.reject(err);
     });
-    const dataUrls = await data.json();
-    return await Promise.resolve(dataUrls);
-  } catch (err) {
-    return await Promise.reject(err);
-  }
 }
- 

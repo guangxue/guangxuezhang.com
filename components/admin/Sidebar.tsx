@@ -9,17 +9,18 @@ import {
   AiOutlineCloudUpload,
 } from "react-icons/ai";
 import React from "react";
+import { useSession } from "next-auth/react";
 
 const Sidebar = () => {
   const { routeDispatch } = useSidebarRoutes();
-
+  const { data, status } = useSession();
   const navbarIcons = [
-    { name: AiFillHome, onClick: () => { routeDispatch({ type: "Home", payload: {} }) }, label: "Home" },
-    { name: AiOutlineDashboard, onClick: () => { routeDispatch({ type: "Editor", payload: {} }) }, label: "Editor" },
-    { name: AiOutlineFileText, onClick: () => { routeDispatch({ type: "Posts", payload: {} }) }, label: "Posts" },
-    { name: AiOutlineComment, onClick: () => { routeDispatch({ type: "Comments", payload: {} }) }, label: "Comments" },
-    { name: AiOutlineCloudUpload, onClick: () => { routeDispatch({ type: "Uploads", payload: {} }) }, label: "Uploads" },
-    { name: AiOutlineTeam, onClick: () => { routeDispatch({ type: "Users", payload: {} }) }, label: "Users" },
+    { name: AiFillHome, onClick: () => { routeDispatch({ type: "Home", payload: { ...data?.user, status } }) }, label: "Home" },
+    { name: AiOutlineDashboard, onClick: () => { routeDispatch({ type: "Editor", payload: { ...data?.user, status } }) }, label: "Editor" },
+    { name: AiOutlineFileText, onClick: () => { routeDispatch({ type: "Posts", payload: { ...data?.user, status } }) }, label: "Posts" },
+    { name: AiOutlineComment, onClick: () => { routeDispatch({ type: "Comments", payload: { ...data?.user, status } }) }, label: "Comments" },
+    { name: AiOutlineCloudUpload, onClick: () => { routeDispatch({ type: "Uploads", payload: { ...data?.user, status } }) }, label: "Uploads" },
+    { name: AiOutlineTeam, onClick: () => { routeDispatch({ type: "Users", payload: { ...data?.user, status } }) }, label: "Users" },
   ];
 
   return (

@@ -1,4 +1,3 @@
-import { prisma } from "@/lib/globals/db";
 import Image from "next/image";
 import Link from "next/link";
 import { remoteImagePath } from '@/utils/request'

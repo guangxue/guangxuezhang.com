@@ -1,5 +1,5 @@
-import GithubSignInButton from "../GithubSignInButton";
-import GoogleSignInButton from "../GoogleSignInButton";
+import GithubSignInButton from "@/components/GithubSignInButton";
+import GoogleSignInButton from "@/components/GoogleSignInButton";
 
 function UserSignInPage() {
 

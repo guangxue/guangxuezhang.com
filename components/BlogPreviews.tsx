@@ -12,21 +12,21 @@ interface BlogPreviewsProps {
   logo: string;
 }
 
-const BlogPreviews: NextPage<BlogPreviewsProps> = (props) => {
-  const publishDate = new Date(props.publish).toDateString();
+const BlogPreviews: NextPage<BlogPreviewsProps> = (post) => {
+  const publishDate = new Date(post.publish).toDateString();
   return (
     <article className="bg-neutral-50 sm:basis-full md:basis-[48%] lg:basis-[30%] p-3">
       <header className="flex items-center gap-5">
-        <Image src={props.logo} className="mt-1" alt="" width={40} height={40} />
+        <Image src={post.logo} className="mt-1" alt="" width={40} height={40} style={{ width: '39px', height: '39px' }} />
         <div className="mt-5">
-          <Link href={`/blog/${props.slug}`}>
-            <h1 className="text-xl">{props.title}</h1>
+          <Link href={`/blog/${post.slug}`}>
+            <h1 className="text-xl">{post.title}</h1>
           </Link>
           <time className="publish-time">{publishDate}</time>
         </div>
       </header>
       <section>
-        <p>{props.intro}</p>
+        <p>{post.intro}</p>
       </section>
     </article>
   );

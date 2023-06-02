@@ -9,7 +9,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'beta.guangxuezhang.com',
+        hostname: 'assets.guangxuezhang.com',
         port: '',
         pathname: '/images/main/**',
       },

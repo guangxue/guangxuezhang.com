@@ -37,7 +37,7 @@ model Post {
   id        Int       @id @default(autoincrement())
   title     String    @db.VarChar(58)
   intro     String    @db.VarChar(300)
-  logo      String    @default("/default.svg") @db.VarChar(58)
+  logo      String    @default("default.svg") @db.VarChar(120)
   slug      String    @unique @db.VarChar(58)
   tags      String?   @db.VarChar(58)
   publish   DateTime?

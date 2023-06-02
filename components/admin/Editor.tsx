@@ -17,7 +17,7 @@ const Editor = () => {
   const [updateContentOrNot, updateContent] = React.useState<boolean>(false);
   const [trigger, setTrigger] = React.useState(false)
   const editorArea = React.useRef<HTMLTextAreaElement>(null);
-  const { sidebarRoute } = useSidebarRoutes();
+  const { sidebarState } = useSidebarRoutes();
 
   function handleVimKeys(e: React.KeyboardEvent<HTMLTextAreaElement>) {
     const editor = VimEditor(e);
@@ -45,11 +45,11 @@ const Editor = () => {
 
   React.useEffect(() => {
     // Edit post content based on the content
-    if (sidebarRoute.content && editorArea.current) {
-      editorArea.current.value = sidebarRoute.content;
+    if (sidebarState.editContent && editorArea.current) {
+      editorArea.current.value = sidebarState.editContent;
       setTrigger(true);
     }
-  }, [sidebarRoute, editorArea])
+  }, [sidebarState, editorArea])
 
   /**
    *  createPost(data: string)
@@ -87,22 +87,21 @@ const Editor = () => {
     }
   }, [savePost, editorArea, trigger]);
 
-  // Update Post Content
+  // Update Post Content by postId
   React.useEffect(() => {
-    const pid = sidebarRoute.id;
+    const pid = sidebarState.postId;
     if (updateContentOrNot) {
       const postContent = editorArea.current!.value;
-      console.log("postContent: ", postContent);
       updatePostContent(pid, postContent).then(res => console.log(res)).catch(err => console.log(err));
     }
     return () => { updateContent(false) }
-  }, [updateContentOrNot, editorArea, sidebarRoute])
+  }, [updateContentOrNot, editorArea, sidebarState])
 
   return (
     <div className="editor-container w-screen flex">
       <div className="editor-wrapper basis-full lg:basis-[60%] border border-gray-500 overflow-auto h-[78%] shadow-lg">
         <div className="editor-actions border-b border-gray-500 bg-slate-100 p-1 text-gray-600">
-          {sidebarRoute.content ?
+          {sidebarState.editContent ?
             <button className="px-4 py-2 text-center text-sm font-semibold hover:bg-slate-50 rounded" onClick={() => updateContent(true)}>Update</button> :
             <button className="px-4 py-2 text-center text-sm font-semibold hover:bg-slate-50 rounded" onClick={() => setSavePost(true)}>Publish</button>
           }

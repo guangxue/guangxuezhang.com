@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Post" ALTER COLUMN "logo" SET DEFAULT 'default.svg',
+ALTER COLUMN "logo" SET DATA TYPE VARCHAR(120);

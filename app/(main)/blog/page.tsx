@@ -23,7 +23,7 @@ const BlogPage = async () => {
         <div className="BlogPreviews flex flex-wrap gap-6">
           {blogMetadata.map((blog: any) => (
             <BlogPreviews
-              key={blog.title + blog.publish}
+              key={blog.slug}
               title={blog.title}
               tags={blog.tags}
               publish={blog.publish}

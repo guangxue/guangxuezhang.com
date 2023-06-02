@@ -1,13 +1,13 @@
 "use client";
+import Loader from "@/components/Loader";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import React from "react";
 
-function AdminSignInPage() {
+export default function AdminSignInPage() {
   const uname = React.useRef<HTMLInputElement>(null);
   const pwd = React.useRef<HTMLInputElement>(null);
+  const [disabled, setDisable] = React.useState<boolean>(false);
   const [err, setErr] = React.useState<string>("");
-  const router = useRouter();
 
   async function handleAdminLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -18,15 +18,16 @@ function AdminSignInPage() {
     const res = await signIn("credentials", {
       username: unameVal,
       password: pwdVal,
-      redirect: false,
+      redirect: true,
+      callbackUrl: "/dashboard/admin"
     });
+
     if (res?.error) {
       console.log(res);
       setErr(res.error);
-    } else {
-      router.push("/dashboard");
     }
   }
+
   return (
     <div className="AdminSignInPage flex justify-center items-center w-screen prose prose-neutral prose-h1:text-3xl max-w-none">
       <form onSubmit={handleAdminLogin}>
@@ -54,8 +55,10 @@ function AdminSignInPage() {
             />
           </div>
           <div>
-            <button className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-white">
-              Login
+            <button onClick={() => { setDisable(true) }} disabled={disabled} className="flex w-full gap-2 justify-center items-center rounded-md bg-indigo-600 px-3 py-2 text-white hover:bg-indigo-500">
+              <span>Login</span>
+              {/* <Loader /> */}
+              {disabled ? <Loader /> : ''}
             </button>
           </div>
         </section>
@@ -63,5 +66,3 @@ function AdminSignInPage() {
     </div>
   );
 }
-
-export default AdminSignInPage;
