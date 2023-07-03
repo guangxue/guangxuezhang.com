@@ -9,7 +9,7 @@ import { NextAuthOptions } from "next-auth";
 
 const prisma = new PrismaClient();
 
-export const authOption: NextAuthOptions = {
+const authOption: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
