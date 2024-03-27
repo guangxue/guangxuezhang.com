@@ -83,7 +83,6 @@ export default async function HomePage() {
       </div>
       <div className="HomePage_posts flex flex-wrap m-6 font-lora gap-5">
         {latestPosts.map(post => {
-          {/*@ts-expect-error Async JSX Component */ }
           return <LatestPost post={post} key={post.id} />
         })}
       </div>

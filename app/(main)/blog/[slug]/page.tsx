@@ -33,8 +33,6 @@ const BlogSlugPage = async ({ params }: Params) => {
             <time className="">Published <em>{post.publish?.toDateString()}</em></time>
           </div>
         </header>
-
-        {/*@ts-expect-error Async JSX Component */}
         <MDXRemote source={post.content} />
       </article>
     );

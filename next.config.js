@@ -1,22 +1,31 @@
-// const { withContentlayer } = require("next-contentlayer");
+/**
+ * @type {import('next').NextConfig}
+ */
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  experimental: {
-    appDir: true,
-  },
-  images: {
-    remotePatterns: [
-      {
+const { PrismaPlugin } = require('@prisma/nextjs-monorepo-workaround-plugin');
+
+// @ts-check
+ 
+module.exports = async (phase, { defaultConfig }) => {
+  /**
+   * @type {import('next').NextConfig}a
+   */
+  const nextConfig = {
+    /* config options here */
+    webpack: (config, {isServer}) => {
+      if(isServer) {
+        config.plugins = [...config.plugins, new PrismaPlugin()]
+      }
+      return config;
+    },
+    images: {
+      remotePatterns: [{
         protocol: 'https',
         hostname: 'assets.guangxuezhang.com',
         port: '',
         pathname: '/images/main/**',
-      },
-    ],
-  },
-};
-
-// module.exports = withContentlayer(nextConfig);
-const withMDX = require("@next/mdx")();
-module.exports = withMDX(nextConfig);
+      }]
+    }
+  }
+  return nextConfig
+}
