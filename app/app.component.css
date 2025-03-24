@@ -1,11 +1,14 @@
-nav a {
-  margin: 0 2rem;
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
 }
 
 nav a {
   color: black;
   text-decoration-color: transparent;
   transition: 0.2s;
+  margin-right: 3.3rem;
 }
 
 

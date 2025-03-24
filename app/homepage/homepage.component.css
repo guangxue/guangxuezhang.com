@@ -1,4 +1,13 @@
-.homepage-container {
-  background: url("/src/images/bgimg1.jpg") no-repeat center center fixed;
-  background-size: cover;
+div.homepage-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+}
+div.page-title {
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  padding: 1.6rem 2rem;
 }
